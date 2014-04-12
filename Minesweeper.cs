@@ -9,6 +9,8 @@ namespace saper
 {
     class Minesweeper
     {
+        public enum Directions { Up, Right, Down, Left };
+        public Directions facingDirection { get; private set; }
         private int x;
         private int y;
         private const int MAP_SIZE = 25;
@@ -19,6 +21,7 @@ namespace saper
             this.minesweeper = uielement;
             this.SetX(0);
             this.SetY(0);
+            this.facingDirection = Directions.Up;
         }
 
         public Minesweeper(UIElement uielement, int x, int y)
@@ -26,6 +29,7 @@ namespace saper
             this.minesweeper = uielement;
             this.SetX(x);
             this.SetY(y);
+            this.facingDirection = Directions.Up;
         }
 
         private void SetLocation(int x, int y)
@@ -71,25 +75,52 @@ namespace saper
             return this.y;
         }
 
-
-        public void MoveUp()
+        private void MoveUp()
         {
             SetLocation(this.GetX(), this.GetY() - 1);
         }
 
-        public void MoveDown()
+        private void MoveDown()
         {
             SetLocation(this.GetX(), this.GetY() + 1);
         }
 
-        public void MoveLeft()
+        private void MoveLeft()
         {
             SetLocation(this.GetX() - 1, this.GetY());
         }
 
-        public void MoveRight()
+        private void MoveRight()
         {
             SetLocation(this.GetX() + 1, this.GetY());
+        }
+
+        public void RotateLeft()
+        {
+            if (this.facingDirection == Directions.Up)
+                this.facingDirection = Directions.Left;
+            else
+                this.facingDirection--;
+        }
+
+        public void RotateRight()
+        {
+            if (this.facingDirection == Directions.Left)
+                this.facingDirection = Directions.Up;
+            else
+                this.facingDirection++;
+        }
+
+        public void Move()
+        {
+            if (this.facingDirection == Directions.Up)
+                this.MoveUp();
+            else if (this.facingDirection == Directions.Down)
+                this.MoveDown();
+            else if (this.facingDirection == Directions.Left)
+                this.MoveLeft();
+            else if (this.facingDirection == Directions.Right)
+                this.MoveRight();
         }
     }
 }

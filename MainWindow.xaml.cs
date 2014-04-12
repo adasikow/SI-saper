@@ -29,24 +29,18 @@ namespace saper
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
             minesweeper = new Minesweeper(Saper);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Down)
-                minesweeper.MoveDown();
-            if (e.Key == Key.Up)
-                minesweeper.MoveUp();
+            if (e.Key == Key.Space)
+                minesweeper.Move();
             if (e.Key == Key.Right)
-                minesweeper.MoveRight();
+                minesweeper.RotateRight();
             if (e.Key == Key.Left)
-                minesweeper.MoveLeft();
-                
+                minesweeper.RotateLeft();
+
         }
     }
 }
