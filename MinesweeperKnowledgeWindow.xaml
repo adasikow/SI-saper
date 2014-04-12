@@ -1,8 +1,7 @@
 ﻿<Window x:Class="saper.MinesweeperKnowledgeWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MinesweeperKnowledgeWindow" Height="300" Width="300">
-    <Grid>
-        
+        Title="MinesweeperKnowledgeWindow" Height="600" Width="600">
+    <Grid Name="minesweeperKnowledgeGrid" Background="GreenYellow">
     </Grid>
 </Window>

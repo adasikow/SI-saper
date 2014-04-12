@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace saper
 {
@@ -14,24 +15,27 @@ namespace saper
         private int x;
         private int y;
         private int minefieldSize;
-        private UIElement minesweeper;
+        public Image minesweeperImage { get; private set; }
 
-        public Minesweeper(UIElement uielement, int minefieldSize)
+        public Minesweeper(int minefieldSize)
         {
-            this.minesweeper = uielement;
+            this.minefieldSize = minefieldSize;
             this.SetX(0);
             this.SetY(0);
             this.facingDirection = Directions.Up;
-            this.minefieldSize = minefieldSize;
+            this.minesweeperImage = new Image();
+            this.minesweeperImage.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/saper.jpg"));
+
         }
 
-        public Minesweeper(UIElement uielement, int x, int y, int minefieldSize)
+        public Minesweeper(int x, int y, int minefieldSize)
         {
-            this.minesweeper = uielement;
+            this.minefieldSize = minefieldSize;
             this.SetX(x);
             this.SetY(y);
             this.facingDirection = Directions.Up;
-            this.minefieldSize = minefieldSize;
+            this.minesweeperImage = new Image();
+            this.minesweeperImage.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/saper.jpg"));
         }
 
         private void SetLocation(int x, int y)
@@ -43,8 +47,8 @@ namespace saper
 
         private void UpdateLocation()
         {
-            Grid.SetColumn(this.minesweeper, this.GetX());
-            Grid.SetRow(this.minesweeper, this.GetY());
+            Grid.SetColumn(this.minesweeperImage, this.GetX());
+            Grid.SetRow(this.minesweeperImage, this.GetY());
         }
 
         private void SetX(int x)

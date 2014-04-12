@@ -3,12 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Pole Minowe" Height="600" Width="600"
         KeyDown="Window_KeyDown">
-    <Window.Resources>
-        <ResourceDictionary>
-            <BitmapImage x:Key="saper_img" UriSource="res/saper.jpg"/>
-        </ResourceDictionary>
-    </Window.Resources>
-    <Grid Name="Minefield" Background="GreenYellow">
-        <Image Name="Saper" Source="{StaticResource saper_img}"/>
+    <Grid Name="minefieldGrid" Background="GreenYellow">
     </Grid>
 </Window>

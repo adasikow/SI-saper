@@ -23,14 +23,15 @@ namespace saper
 
         public MinefieldWindow(int minefieldSize)
         {
-            this.minefieldSize = minefieldSize;
             InitializeComponent();
+            this.minefieldSize = minefieldSize;
             for (int i = 0; i < this.minefieldSize; ++i)
             {
-                Minefield.ColumnDefinitions.Add(new ColumnDefinition());
-                Minefield.RowDefinitions.Add(new RowDefinition());
+                minefieldGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                minefieldGrid.RowDefinitions.Add(new RowDefinition());
             }
-            minesweeper = new Minesweeper(Saper, this.minefieldSize);
+            minesweeper = new Minesweeper(this.minefieldSize);
+            minefieldGrid.Children.Add(minesweeper.minesweeperImage);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)

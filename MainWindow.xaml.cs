@@ -43,7 +43,9 @@ namespace saper
         private void startButton_Click(object sender, RoutedEventArgs e)
         {
             MinefieldWindow minefieldWindow = new MinefieldWindow(minefieldSize);
+            MinesweeperKnowledgeWindow minesweeperKnowledgeWindow = new MinesweeperKnowledgeWindow();
             minefieldWindow.Show();
+            minesweeperKnowledgeWindow.Show();
         }
 
         private void minefieldSizeBox_TextChanged(object sender, TextChangedEventArgs e)
