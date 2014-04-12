@@ -18,9 +18,30 @@ namespace saper
     /// </summary>
     public partial class MinefieldWindow : Window
     {
-        public MinefieldWindow()
+        private Minesweeper minesweeper;
+        int minefieldSize;
+
+        public MinefieldWindow(int minefieldSize)
         {
+            this.minefieldSize = minefieldSize;
             InitializeComponent();
+            for (int i = 0; i < this.minefieldSize; ++i)
+            {
+                Minefield.ColumnDefinitions.Add(new ColumnDefinition());
+                Minefield.RowDefinitions.Add(new RowDefinition());
+            }
+            minesweeper = new Minesweeper(Saper, this.minefieldSize);
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                minesweeper.Move();
+            if (e.Key == Key.Right)
+                minesweeper.RotateRight();
+            if (e.Key == Key.Left)
+                minesweeper.RotateLeft();
+
         }
     }
 }

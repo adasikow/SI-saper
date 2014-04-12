@@ -24,23 +24,40 @@ namespace saper
 
     public partial class MainWindow : Window
     {
-        Minesweeper minesweeper;
+        List<String> problemSolveMethods;
+
+        int minefieldSize = 0;
 
         public MainWindow()
         {
             InitializeComponent();
-            minesweeper = new Minesweeper(Saper);
+            problemSolveMethods = new List<String>();
+            problemSolveMethods.Add("Przeszukanie przestreni stanów");
+            problemSolveMethods.Add("Drzewa decyzyjne");
+            problemSolveMethods.Add("Algorytmy genetyczne");
+            problemSolveMethods.Add("Algorytmy uczenia symbolicznego");
+            problemSolveMethods.Add("Sieci neuronowe");
+            methodSelectionBox.ItemsSource = problemSolveMethods;
         }
 
-        private void Window_KeyDown(object sender, KeyEventArgs e)
+        private void startButton_Click(object sender, RoutedEventArgs e)
         {
-            if (e.Key == Key.Space)
-                minesweeper.Move();
-            if (e.Key == Key.Right)
-                minesweeper.RotateRight();
-            if (e.Key == Key.Left)
-                minesweeper.RotateLeft();
+            MinefieldWindow minefieldWindow = new MinefieldWindow(minefieldSize);
+            minefieldWindow.Show();
+        }
 
+        private void minefieldSizeBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!Int32.TryParse(minefieldSizeBox.Text, out minefieldSize))
+            {
+                wrongInputLabel.Visibility = System.Windows.Visibility.Visible;
+                startButton.IsEnabled = false;
+            }
+            else
+            {
+                wrongInputLabel.Visibility = System.Windows.Visibility.Hidden;
+                startButton.IsEnabled = true;
+            }
         }
     }
 }

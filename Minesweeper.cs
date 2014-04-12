@@ -13,23 +13,25 @@ namespace saper
         public Directions facingDirection { get; private set; }
         private int x;
         private int y;
-        private const int MAP_SIZE = 25;
+        private int minefieldSize;
         private UIElement minesweeper;
 
-        public Minesweeper(UIElement uielement)
+        public Minesweeper(UIElement uielement, int minefieldSize)
         {
             this.minesweeper = uielement;
             this.SetX(0);
             this.SetY(0);
             this.facingDirection = Directions.Up;
+            this.minefieldSize = minefieldSize;
         }
 
-        public Minesweeper(UIElement uielement, int x, int y)
+        public Minesweeper(UIElement uielement, int x, int y, int minefieldSize)
         {
             this.minesweeper = uielement;
             this.SetX(x);
             this.SetY(y);
             this.facingDirection = Directions.Up;
+            this.minefieldSize = minefieldSize;
         }
 
         private void SetLocation(int x, int y)
@@ -49,8 +51,8 @@ namespace saper
         {
             if (x < 0)
                 this.x = 0;
-            else if (x >= MAP_SIZE)
-                this.x = MAP_SIZE - 1;
+            else if (x >= this.minefieldSize)
+                this.x = this.minefieldSize - 1;
             else
                 this.x = x;
         }
@@ -59,8 +61,8 @@ namespace saper
         {
             if (y < 0)
                 this.y = 0;
-            else if (y >= MAP_SIZE)
-                this.y = MAP_SIZE - 1;
+            else if (y >= this.minefieldSize)
+                this.y = this.minefieldSize - 1;
             else
                 this.y = y;
         }
