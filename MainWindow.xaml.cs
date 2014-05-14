@@ -26,7 +26,7 @@ namespace saper
     {
         List<String> problemSolveMethods;
 
-        int minefieldSize = 0;
+        ushort minefieldSize = 0;
 
         public MainWindow()
         {
@@ -42,6 +42,7 @@ namespace saper
 
         private void startButton_Click(object sender, RoutedEventArgs e)
         {
+            Settings.MAP_SIZE = minefieldSize;
             MinefieldWindow minefieldWindow = new MinefieldWindow(minefieldSize);
             MinesweeperKnowledgeWindow minesweeperKnowledgeWindow = new MinesweeperKnowledgeWindow();
             minefieldWindow.Show();
@@ -50,7 +51,7 @@ namespace saper
 
         private void minefieldSizeBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (!Int32.TryParse(minefieldSizeBox.Text, out minefieldSize))
+            if (!UInt16.TryParse(minefieldSizeBox.Text, out minefieldSize))
             {
                 wrongInputLabel.Visibility = System.Windows.Visibility.Visible;
                 startButton.IsEnabled = false;

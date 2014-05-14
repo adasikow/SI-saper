@@ -55,6 +55,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Chromosome.cs" />
+    <Compile Include="ChromosomeLengthException.cs" />
+    <Compile Include="CrossingPointException.cs" />
+    <Compile Include="MapManager.cs" />
+    <Compile Include="Mine.cs" />
+    <Compile Include="MinePositionsGenerator.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="State.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -115,6 +122,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="res\saper.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\mine.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

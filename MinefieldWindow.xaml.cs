@@ -18,6 +18,7 @@ namespace saper
     /// </summary>
     public partial class MinefieldWindow : Window
     {
+        private MapManager mapManager;
         private Minesweeper minesweeper;
         int minefieldSize;
 
@@ -30,19 +31,37 @@ namespace saper
                 minefieldGrid.ColumnDefinitions.Add(new ColumnDefinition());
                 minefieldGrid.RowDefinitions.Add(new RowDefinition());
             }
+            mapManager = new MapManager();
             minesweeper = new Minesweeper(this.minefieldSize);
+            ResetMineField();
+        }
+
+        public void ResetMineField()
+        {
+            minefieldGrid.Children.Clear();
             minefieldGrid.Children.Add(minesweeper.minesweeperImage);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Space)
-                minesweeper.Move();
-            if (e.Key == Key.Right)
-                minesweeper.RotateRight();
-            if (e.Key == Key.Left)
-                minesweeper.RotateLeft();
-
+            switch (e.Key)
+            {
+                case Key.Space:
+                    minesweeper.Move();
+                    break;
+                case Key.Left:
+                    minesweeper.RotateLeft();
+                    break;
+                case Key.Right:
+                    minesweeper.RotateRight();
+                    break;
+                case Key.G:
+                    mapManager.DrawMap(minefieldGrid);
+                    break;
+                case Key.R:
+                    ResetMineField();
+                    break;
+            }
         }
     }
 }
