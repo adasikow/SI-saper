@@ -8,9 +8,10 @@ using System.Windows.Media.Imaging;
 
 namespace saper
 {
+    public enum Directions { Up, Right, Down, Left };
+
     class Minesweeper
     {
-        public enum Directions { Up, Right, Down, Left };
         public Directions facingDirection { get; private set; }
         private int x;
         private int y;
@@ -136,5 +137,19 @@ namespace saper
             else if (this.facingDirection == Directions.Right)
                 this.MoveRight();
         }
+
+
+        //wyszukiwanie rozwiazania
+        //dopoki (liczba_bomb > 0)
+        //  wyznacz kolejna bombe do rozbrojenia
+        //  utworz stan koncowy
+        //  utworz stan obecny
+        //  dodaj do kolejki/stosu obecny stan
+        //  dopoki stan obecny != stan koncowy
+        //      pobierz stan
+        //      wygeneruj wszystkie mozliwe nastepne stany
+        //      te stany, ktore jeszcze nie zostaly odwiedzone dodaj do kolejki/stosu stanow do przeszukania
+        //  odtworz sciezke za pomoca stanow - rodzicow i zapapamietaj
+        //zwroc sciezke
     }
 }
