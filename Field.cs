@@ -7,6 +7,7 @@ namespace saper
 {
     class Field
     {
+        private const double MAX_DEPTH = 0.5;
         public bool hasMine { get; private set; }
         public double mineDepth { get; private set; }
         public Frame.FieldType type { get; private set; }
@@ -23,8 +24,8 @@ namespace saper
             this.hasMine = true;
             if (depth < 0.0)
                 this.mineDepth = 0.0;
-            else if (depth > 1.0)
-                this.mineDepth = 1.0;
+            else if (depth > MAX_DEPTH)
+                this.mineDepth = MAX_DEPTH;
             else
                 this.mineDepth = depth;
         }
