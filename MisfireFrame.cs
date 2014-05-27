@@ -7,5 +7,9 @@ namespace saper
 {
     class MisfireFrame : ExplosiveFrame
     {
+        public MisfireFrame()
+        {
+            this.colour = Colour.Black;
+        }
     }
 }

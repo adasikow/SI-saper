@@ -62,6 +62,7 @@
     <Compile Include="ClaymoreFrame.cs" />
     <Compile Include="CrossingPointException.cs" />
     <Compile Include="DynamiteFrame.cs" />
+    <Compile Include="Explosive.cs" />
     <Compile Include="MapManager.cs" />
     <Compile Include="Mine.cs" />
     <Compile Include="MinefieldFrame.cs" />
