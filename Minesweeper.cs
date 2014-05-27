@@ -22,9 +22,9 @@ namespace saper
         private List<ExplosiveFrame> explosivesKnowledge;
         private FieldFrame[,] minefieldKnowledge;
 
-        public Minesweeper(int minefieldSize)
+        public Minesweeper()
         {
-            this.minefieldSize = minefieldSize;
+            this.minefieldSize = Settings.MAP_SIZE;
             this.SetX(0);
             this.SetY(0);
             this.facingDirection = Directions.Up;
@@ -37,9 +37,9 @@ namespace saper
 
         }
 
-        public Minesweeper(int x, int y, int minefieldSize)
+        public Minesweeper(int x, int y)
         {
-            this.minefieldSize = minefieldSize;
+            this.minefieldSize = Settings.MAP_SIZE;
             this.SetX(x);
             this.SetY(y);
             this.facingDirection = Directions.Up;

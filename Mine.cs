@@ -20,7 +20,7 @@ namespace saper
             this.SetX(0);
             this.SetY(0);
             this.mineImage = new Image();
-            this.mineImage.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/mine.bmp"));   
+            this.mineImage.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/mine.jpg"));   
         }
 
         public Mine(int x, int y)
@@ -28,7 +28,7 @@ namespace saper
             this.SetX(x);
             this.SetY(y);
             this.mineImage = new Image();
-            this.mineImage.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/mine.bmp"));
+            this.mineImage.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/mine.jpg"));
         }
 
         private void SetLocation(int x, int y)

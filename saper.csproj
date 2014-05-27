@@ -55,12 +55,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BouncingBettyFrame.cs" />
+    <Compile Include="C4Frame.cs" />
     <Compile Include="Chromosome.cs" />
     <Compile Include="ChromosomeLengthException.cs" />
+    <Compile Include="ClaymoreFrame.cs" />
     <Compile Include="CrossingPointException.cs" />
+    <Compile Include="DynamiteFrame.cs" />
     <Compile Include="MapManager.cs" />
     <Compile Include="Mine.cs" />
+    <Compile Include="MinefieldFrame.cs" />
     <Compile Include="MinePositionsGenerator.cs" />
+    <Compile Include="MisfireFrame.cs" />
+    <Compile Include="SemtexFrame.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="State.cs" />
     <Page Include="MainWindow.xaml">

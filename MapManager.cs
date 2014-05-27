@@ -16,6 +16,7 @@ namespace saper
 {
     class MapManager
     {
+
         //private Mine mine;
 
         public MapManager()
@@ -23,13 +24,13 @@ namespace saper
         }
 
         private UIElement DeepCopy(UIElement element)
-       {
-           string shapestring = XamlWriter.Save(element);
-           StringReader stringReader = new StringReader(shapestring);
-           XmlTextReader xmlTextReader = new XmlTextReader(stringReader);
-           UIElement DeepCopyobject = (UIElement)XamlReader.Load(xmlTextReader);
-           return DeepCopyobject;
-       }
+        {
+            string shapestring = XamlWriter.Save(element);
+            StringReader stringReader = new StringReader(shapestring);
+            XmlTextReader xmlTextReader = new XmlTextReader(stringReader);
+            UIElement DeepCopyobject = (UIElement)XamlReader.Load(xmlTextReader);
+            return DeepCopyobject;
+        }
 
         public void DrawMap(Grid pole)
         {
