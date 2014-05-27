@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace saper
+namespace Frame
 {
-    class MinefieldFrame
+    public class Minefield
     {
         public int size { get; set; }
-        public FieldFrame[,] fields;
-        
-        public MinefieldFrame(int size)
+        public Field[,] fields;
+
+        public Minefield(int size)
         {
             this.size = size;
-            fields = new FieldFrame[this.size, this.size];
+            fields = new Field[this.size, this.size];
         }
     }
 }

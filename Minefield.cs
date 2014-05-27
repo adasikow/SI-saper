@@ -32,13 +32,13 @@ namespace saper
                     if(isInRange(column, row))
                     {
                         if (Math.Abs(column - x) == 1 || Math.Abs(row - y) == 1) //pole na przekątnej
-                            radiationMap[column, row] += 0.25 * fieldArray[column, row].mineDepth;
+                            radiationMap[column, row] += 0.25 * (1 - fieldArray[column, row].mineDepth);
                         else if (column == x && row == y) //pole x, y
-                            radiationMap[column, row] += 1.0 * fieldArray[column, row].mineDepth;
+                            radiationMap[column, row] += 1.0 * (1 - fieldArray[column, row].mineDepth);
                         else if (Math.Abs(column - x) == 2 || Math.Abs(row - y) == 2) //pole odległe o 2
-                            radiationMap[column, row] += 0.25 * fieldArray[column, row].mineDepth;
+                            radiationMap[column, row] += 0.25 * (1 - fieldArray[column, row].mineDepth);
                         else //pole odległe o jeden
-                            radiationMap[column, row] += 0.5 * fieldArray[column, row].mineDepth;
+                            radiationMap[column, row] += 0.5 * (1 - fieldArray[column, row].mineDepth);
                     }
                 }
         }
@@ -61,20 +61,20 @@ namespace saper
             }
         }
 
-        public void addField(int x, int y, FieldType type)
+        public void addField(int x, int y, Frame.FieldType type)
         {
             if (!(x < 0 || x >= minefieldSize || y < 0 || y >= minefieldSize || fieldArray[x, y] == null))
                 fieldArray[x, y] = new Field(type);
         }
 
-        public MinefieldFrame generateInitialMinefieldFrame()
+        public Frame.Minefield generateInitialMinefieldFrame()
         {
-            MinefieldFrame minefieldFrame = new MinefieldFrame(this.minefieldSize);
+            Frame.Minefield minefieldFrame = new Frame.Minefield(this.minefieldSize);
 
             for(int i = 0; i < this.minefieldSize; ++i)
                 for (int j = 0; j < this.minefieldSize; ++j)
                 {
-                    FieldFrame fieldFrame = new FieldFrame();
+                    Frame.Field fieldFrame = new Frame.Field();
                     fieldFrame.type = fieldArray[i, j].type;
                     fieldFrame.radiation = radiationMap[i, j];
                     minefieldFrame.fields[i, j] = fieldFrame;

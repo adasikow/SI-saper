@@ -5,15 +5,13 @@ using System.Text;
 
 namespace saper
 {
-    public enum FieldType { Grass, Scrap }
-
     class Field
     {
         public bool hasMine { get; private set; }
         public double mineDepth { get; private set; }
-        public FieldType type { get; private set; }
+        public Frame.FieldType type { get; private set; }
 
-        public Field(FieldType fieldType)
+        public Field(Frame.FieldType fieldType)
         {
             this.hasMine = false;
             this.mineDepth = 0.0;

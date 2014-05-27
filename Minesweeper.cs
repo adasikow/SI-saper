@@ -18,9 +18,9 @@ namespace saper
         private int minefieldSize;
         public Image minesweeperImage { get; private set; }
 
-        private List<DisarmMethodFrame> disarmMethodsKnowledge;
-        private List<ExplosiveFrame> explosivesKnowledge;
-        private FieldFrame[,] minefieldKnowledge;
+        //private List<DisarmMethodFrame> disarmMethodsKnowledge;
+        //private List<ExplosiveFrame> explosivesKnowledge;
+        //private FieldFrame[,] minefieldKnowledge;
 
         public Minesweeper()
         {
@@ -31,9 +31,9 @@ namespace saper
             this.minesweeperImage = new Image();
             this.minesweeperImage.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/saper.jpg"));
 
-            this.minefieldKnowledge = new FieldFrame[this.minefieldSize, this.minefieldSize];
-            this.disarmMethodsKnowledge = new List<DisarmMethodFrame>();
-            this.explosivesKnowledge = new List<ExplosiveFrame>();
+            //this.minefieldKnowledge = new FieldFrame[this.minefieldSize, this.minefieldSize];
+            //this.disarmMethodsKnowledge = new List<DisarmMethodFrame>();
+            //this.explosivesKnowledge = new List<ExplosiveFrame>();
 
         }
 

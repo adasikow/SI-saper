@@ -55,20 +55,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BouncingBettyFrame.cs" />
-    <Compile Include="C4Frame.cs" />
     <Compile Include="Chromosome.cs" />
     <Compile Include="ChromosomeLengthException.cs" />
-    <Compile Include="ClaymoreFrame.cs" />
     <Compile Include="CrossingPointException.cs" />
-    <Compile Include="DynamiteFrame.cs" />
     <Compile Include="Explosive.cs" />
     <Compile Include="MapManager.cs" />
     <Compile Include="Mine.cs" />
-    <Compile Include="MinefieldFrame.cs" />
     <Compile Include="MinePositionsGenerator.cs" />
-    <Compile Include="MisfireFrame.cs" />
-    <Compile Include="SemtexFrame.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="State.cs" />
     <Page Include="MainWindow.xaml">
@@ -79,10 +72,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DisarmMethodFrame.cs" />
-    <Compile Include="ExplosiveFrame.cs" />
     <Compile Include="Field.cs" />
-    <Compile Include="FieldFrame.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -133,6 +123,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="res\mine.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Frame\Frame.csproj">
+      <Project>{C84D5352-77E7-4456-AF67-DBAFE64CD1F1}</Project>
+      <Name>Frame</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
