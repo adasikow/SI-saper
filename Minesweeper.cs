@@ -5,6 +5,8 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using System.Threading;
+using System.Windows.Threading;
 
 namespace saper
 {
@@ -58,6 +60,9 @@ namespace saper
         {
             Grid.SetColumn(this.minesweeperImage, this.GetX());
             Grid.SetRow(this.minesweeperImage, this.GetY());
+            minesweeperImage.BeginInit();
+            minesweeperImage.EndInit();
+            Thread.Sleep(10);
         }
 
         private void SetX(int x)
@@ -138,6 +143,50 @@ namespace saper
                 this.MoveRight();
         }
 
+        private Boolean visited(List<State> visitedStates, State state)
+        {
+            for(int i = 0; i < visitedStates.Count; ++i)
+                if(isStateEqual(visitedStates[i], state))
+                    return true;
+            return false;
+        }
+
+        private Boolean isStateEqual(State a, State b)
+        {
+            return a.x == b.x && a.y == b.y && a.facingDirection == b.facingDirection;
+        }
+
+        public void Search(Point[] explosives)
+        {
+            for(int i = 0; i < explosives.Length; ++i)
+            {
+                List<State> visitedStates = new List<State>();
+                State currentState = new State(this.GetX(), this.GetY(), this.minefieldSize, this.facingDirection);
+                State finalState = new State(Convert.ToInt32(explosives[i].X), Convert.ToInt32(explosives[i].Y), this.minefieldSize);
+                PriorityQueue<int, State> queue = new PriorityQueue<int, State>();
+                queue.Enqueue(currentState.calculateEstimatedDistance(0, finalState), currentState);
+                while (!currentState.isFinalState(finalState))
+                {
+                    currentState = queue.DequeueValue();
+                    this.SetLocation(currentState.x, currentState.y);
+                    visitedStates.Add(currentState);
+                    State newState;
+
+                    newState = currentState.MoveForwardAction();
+                    if(!visited(visitedStates, newState))
+                        queue.Enqueue(newState.calculateEstimatedDistance(2, finalState), newState);
+
+                    newState = currentState.RotateLeftAction();
+                    if (!visited(visitedStates, newState))
+                        queue.Enqueue(newState.calculateEstimatedDistance(1, finalState), newState);
+
+                    newState = currentState.RotateRightAction();
+                    if (!visited(visitedStates, newState))
+                        queue.Enqueue(newState.calculateEstimatedDistance(1, finalState), newState);
+                }
+            }
+
+        }
 
         //wyszukiwanie rozwiazania
         //dopoki (liczba_bomb > 0)

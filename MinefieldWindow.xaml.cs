@@ -23,21 +23,7 @@ namespace saper
         private Minefield minefield;
         private Image minesweeperImage;
         private Image mineImage;
-
-        private void LoadResources()
-        {
-            this.minesweeperImage = new Image();
-            this.minesweeperImage.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/saper.jpg"));
-
-            this.mineImage = new Image();
-            this.mineImage.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/mine.jpg"));   
-        }
-
-        private void UpdateMinesweeperLocation()
-        {
-            Grid.SetColumn(this.minesweeperImage, minesweeper.GetX());
-            Grid.SetRow(this.minesweeperImage, minesweeper.GetY());
-        }
+        private MinePositionsGenerator mpg;
 
         public MinefieldWindow()
         {
@@ -51,6 +37,7 @@ namespace saper
             minesweeper = new Minesweeper();
             minefield = new Minefield(Settings.MAP_SIZE);
             ResetMineField();
+            mpg = new MinePositionsGenerator();
         }
 
         public void ResetMineField()
@@ -77,6 +64,9 @@ namespace saper
                     break;
                 case Key.R:
                     ResetMineField();
+                    break;
+                case Key.Enter:
+                    minesweeper.Search(mpg.GenerateMinePositions(Settings.NR_OF_MINES));
                     break;
             }
         }

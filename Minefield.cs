@@ -47,16 +47,16 @@ namespace saper
         {
             if (x < minefieldSize && x >= 0 && y < minefieldSize && y >= 0)
             {
-                this.fieldArray[x, y].disarm();
+                this.fieldArray[x, y].disarmExplosive();
                 updateRadiationAreaAt(x, y);
             }
         }
 
-        public void placeMineAt(int x, int y, float depth)
+        public void placeMineAt(int x, int y, float depth, Explosive explosive)
         {
             if (x < minefieldSize && x >= 0 && y < minefieldSize && y >= 0)
             {
-                this.fieldArray[x, y].placeMine(depth);
+                this.fieldArray[x, y].placeExplosive(explosive, depth);
                 updateRadiationAreaAt(x, y);
             }
         }
