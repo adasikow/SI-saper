@@ -14,7 +14,12 @@ namespace saper
         public Minefield(int size)
         {
             this.minefieldSize = size;
+
             this.fieldArray = new Field[minefieldSize, minefieldSize];
+            for (int i = 0; i < minefieldSize; ++i)
+                for (int j = 0; j < minefieldSize; ++j)
+                    addField(i, j, Frame.FieldType.Grass);
+
             this.radiationMap = new double[minefieldSize, minefieldSize];
             Array.Clear(this.radiationMap, 0, this.minefieldSize);
         }
@@ -63,7 +68,7 @@ namespace saper
 
         public void addField(int x, int y, Frame.FieldType type)
         {
-            if (!(x < 0 || x >= minefieldSize || y < 0 || y >= minefieldSize || fieldArray[x, y] == null))
+            if (!(x < 0 || x >= minefieldSize || y < 0 || y >= minefieldSize || fieldArray[x, y] != null))
                 fieldArray[x, y] = new Field(type);
         }
 

@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace saper
 {
@@ -21,8 +22,8 @@ namespace saper
         private MapManager mapManager;
         private Minesweeper minesweeper;
         private Minefield minefield;
-        private Image minesweeperImage;
-        private Image mineImage;
+        //private Image minesweeperImage;
+        //private Image mineImage;
         private MinePositionsGenerator mpg;
 
         public MinefieldWindow()
@@ -34,11 +35,23 @@ namespace saper
                 minefieldGrid.RowDefinitions.Add(new RowDefinition());
             }
             mapManager = new MapManager();
-            minesweeper = new Minesweeper();
+            //minesweeper.LocationUpdate += HandleLocationUpdate;
             minefield = new Minefield(Settings.MAP_SIZE);
+            minesweeper = new Minesweeper(minefield.generateInitialMinefieldFrame());
             ResetMineField();
             mpg = new MinePositionsGenerator();
         }
+
+        /*
+        private void HandleLocationUpdate(object sender, MinesweeperEventArgs e)
+        {
+            minefieldGrid.Dispatcher.Invoke(new Action((() =>
+            {
+                Grid.SetColumn(minesweeper.minesweeperImage, e.x);
+                Grid.SetRow(minesweeper.minesweeperImage, e.y);
+            })), new object[] { this } );
+        }
+        */
 
         public void ResetMineField()
         {
@@ -66,7 +79,10 @@ namespace saper
                     ResetMineField();
                     break;
                 case Key.Enter:
-                    minesweeper.Search(mpg.GenerateMinePositions(Settings.NR_OF_MINES));
+                    minesweeper.Search(mapManager.minePositions);
+                    break;
+                case Key.N:
+                    minesweeper.NextMove();
                     break;
             }
         }

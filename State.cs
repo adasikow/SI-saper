@@ -8,7 +8,7 @@ namespace saper
     class State
     {
         public Directions facingDirection { get; private set; }
-        private State parentState;
+        public State parentState { get; private set; }
         public int x { get; private set; }
         public int y { get; private set; }
         private int minefieldSize;
@@ -87,17 +87,17 @@ namespace saper
 
         public State RotateLeftAction()
         {
-            return new State(this.x, this.y, this.minefieldSize, this.RotateLeft());
+            return new State(this.x, this.y, this.minefieldSize, this.RotateLeft(), this);
         }
 
         public State RotateRightAction()
         {
-            return new State(this.x, this.y, this.minefieldSize, this.RotateRight());
+            return new State(this.x, this.y, this.minefieldSize, this.RotateRight(), this);
         }
 
         public State MoveForwardAction()
         {
-            return new State(this.GetNewX(), this.GetNewY(), this.minefieldSize, this.facingDirection);
+            return new State(this.GetNewX(), this.GetNewY(), this.minefieldSize, this.facingDirection, this);
         }
 
 

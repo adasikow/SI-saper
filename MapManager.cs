@@ -19,6 +19,8 @@ namespace saper
 
         //private Mine mine;
 
+        public Point[] minePositions { get; private set; }
+
         public MapManager()
         {
         }
@@ -35,7 +37,7 @@ namespace saper
         public void DrawMap(Grid pole)
         {
             MinePositionsGenerator mpg = new MinePositionsGenerator();
-            Point[] minePositions = mpg.GenerateMinePositions(Settings.NR_OF_MINES);
+            minePositions = mpg.GenerateMinePositions(Settings.NR_OF_MINES);
 
             for (ushort i = 0; i < Settings.NR_OF_MINES; ++i)
             {

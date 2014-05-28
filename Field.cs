@@ -12,6 +12,13 @@ namespace saper
         public double mineDepth { get; private set; }
         public Frame.FieldType type { get; private set; }
 
+        public Field()
+        {
+            this.explosive = null;
+            this.mineDepth = 0.0;
+            this.type = Frame.FieldType.Grass;
+        }
+
         public Field(Frame.FieldType fieldType)
         {
             this.explosive = null;
