@@ -22,15 +22,6 @@ namespace saper
         {
         }
 
-        private UIElement DeepCopy(UIElement element)
-       {
-           string shapestring = XamlWriter.Save(element);
-           StringReader stringReader = new StringReader(shapestring);
-           XmlTextReader xmlTextReader = new XmlTextReader(stringReader);
-           UIElement DeepCopyobject = (UIElement)XamlReader.Load(xmlTextReader);
-           return DeepCopyobject;
-       }
-
         public void DrawMap(Grid pole)
         {
             MinePositionsGenerator mpg = new MinePositionsGenerator();
@@ -39,7 +30,6 @@ namespace saper
             for (ushort i = 0; i < Settings.NR_OF_MINES; ++i)
             {
                 Mine newMine = new Mine();
-              //  UIElement newMine = DeepCopy(mine.mineImage);
                 Grid.SetColumn(newMine.mineImage, (int)minePositions[i].X);
                 Grid.SetRow(newMine.mineImage, (int)minePositions[i].Y);
                 pole.Children.Add(newMine.mineImage);

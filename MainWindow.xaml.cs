@@ -45,8 +45,10 @@ namespace saper
             Settings.MAP_SIZE = minefieldSize;
             MinefieldWindow minefieldWindow = new MinefieldWindow(minefieldSize);
             MinesweeperKnowledgeWindow minesweeperKnowledgeWindow = new MinesweeperKnowledgeWindow();
+            GeneticsWindow gw = new GeneticsWindow();
             minefieldWindow.Show();
             minesweeperKnowledgeWindow.Show();
+            gw.Show();
         }
 
         private void minefieldSizeBox_TextChanged(object sender, TextChangedEventArgs e)

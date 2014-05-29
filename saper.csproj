@@ -55,14 +55,31 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Chromosome.cs" />
-    <Compile Include="ChromosomeLengthException.cs" />
-    <Compile Include="CrossingPointException.cs" />
+    <Compile Include="Chromosome.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ChromosomeLengthException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CrossingPointException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EliteSelection.cs" />
+    <Compile Include="Genetics.cs" />
+    <Compile Include="GeneticsWindow.xaml.cs">
+      <DependentUpon>GeneticsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="IParentsSelectionStrategy.cs" />
     <Compile Include="MapManager.cs" />
     <Compile Include="Mine.cs" />
     <Compile Include="MinePositionsGenerator.cs" />
+    <Compile Include="RouletteSelection.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="State.cs" />
+    <Page Include="GeneticsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -5,10 +5,11 @@ namespace saper
 {
     class Chromosome
     {
-        private List< KeyValuePair<String, bool> > genes = new List< KeyValuePair<String, bool> >(Settings.NR_OF_GENES);
+        private List< KeyValuePair<String, bool> > genes;
         
-        public Chromosome()
+        public Chromosome(int nrOfGenes)
         {
+            genes = new List< KeyValuePair<String, bool> >(nrOfGenes);
         }
         
         public Chromosome(List< KeyValuePair<String, bool> > genes)
@@ -26,39 +27,15 @@ namespace saper
             this.genes = genes;
         }
         
-        public KeyValuePair<Chromosome, Chromosome> CrossOver(Chromosome ParentA, Chromosome ParentB, int crossingPoint)
+        public short CountActiveGenes()
         {
-            List< KeyValuePair<String, bool> > genesA, genesB, genesAB, genesBA;
-            genesA = new List< KeyValuePair<String, bool> >(ParentA.GetGenes());
-            genesB = new List< KeyValuePair<String, bool> >(ParentB.GetGenes());
-
-            int genesASize = genesA.Count;
-            int genesBSize = genesB.Count;
+            short counter = 0;
             
-            if (genesASize != genesBSize)
-                throw new ChromosomeLengthException();
-            
-            // checking if crossPosition is correnct. 
-            // Offspring must take at least one gene from each parent
-            if (crossingPoint < 1 || crossingPoint > genesASize - 2 )
-                throw new CrossingPointException();
-            
-            //initilizing
-            genesAB = new List< KeyValuePair<String, bool> >(genesB);
-            genesBA = new List< KeyValuePair<String, bool> >(genesA);
-
-            for(int i=0; i<crossingPoint; ++i)
-            {
-                genesAB[i] = genesA[i];
-                genesBA[i] = genesB[i];
-            }
-            
-            Chromosome chromosomeAB, chromosomeBA;
-            
-            chromosomeAB = new Chromosome(genesAB);
-            chromosomeBA = new Chromosome(genesBA);
-            
-            return new KeyValuePair<Chromosome, Chromosome>(chromosomeAB, chromosomeBA);
+            foreach(KeyValuePair<String, bool> gene in genes)
+                if(gene.Value)
+                    ++counter;
+                    
+            return counter;
         }
     }
 }

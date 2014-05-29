@@ -16,6 +16,7 @@ namespace saper
         private int x;
         private int y;
         private int minefieldSize;
+        private Chromosome chromosome { get; set; }
         public Image minesweeperImage { get; private set; }
 
         private List<DisarmMethodFrame> disarmMethodsKnowledge;

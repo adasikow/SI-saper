@@ -1,0 +1,22 @@
+﻿<Window x:Class="saper.GeneticsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Genetics" Height="360" Width="585" Foreground="White">
+    <Grid>
+        <Button Content="New population" Height="23" HorizontalAlignment="Left" Margin="297,41,0,0" Name="btnNewPop" VerticalAlignment="Top" Width="102" Click="btnNewPop_Click" />
+        <Button Content="Next generation" Height="23" HorizontalAlignment="Left" Margin="427,41,0,0" Name="btnNextGen" VerticalAlignment="Top" Width="102" IsEnabled="False" Click="btnNextGen_Click" />
+        <Button Content="Previous Individual" Height="23" HorizontalAlignment="Left" Margin="166,104,0,0" Name="btnPrevInd" VerticalAlignment="Top" Width="102" IsEnabled="False" Click="btnPrevInd_Click" />
+        <Button Content="Next Individual" Height="23" HorizontalAlignment="Left" Margin="297,104,0,0" Name="btnNextInd" VerticalAlignment="Top" Width="102" IsEnabled="False" Click="btnNextInd_Click" />
+        <Label Content="Mutation rate (%)" Height="28" HorizontalAlignment="Left" Margin="12,69,0,0" Name="lblMutation" VerticalAlignment="Top" />
+        <ComboBox ItemsSource="{Binding}" Height="23" HorizontalAlignment="Left" Margin="148,69,0,0" Name="cbxMutationRate" VerticalAlignment="Top" Width="120" />
+        <Label Content="Minesweeper nr" Height="21" HorizontalAlignment="Left" Margin="12,103,0,0" Name="lblMinesweeperId" VerticalAlignment="Top" />
+        <Label Content="Parent selection strategy" Height="28" HorizontalAlignment="Left" Margin="12,41,0,0" Name="lblPSS" VerticalAlignment="Top" />
+        <ComboBox ItemsSource="{Binding}" Height="23" HorizontalAlignment="Left" Margin="148,41,0,0" Name="cbxPSS" VerticalAlignment="Top" Width="120" />
+        <Label Content="Population size" Height="28" HorizontalAlignment="Left" Margin="12,12,0,0" Name="lblPopSize" VerticalAlignment="Top" />
+        <ComboBox ItemsSource="{Binding}" Height="23" HorizontalAlignment="Left" Margin="148,12,0,0" Name="cbxPopSize" VerticalAlignment="Top" Width="120" DataContext="{Binding}" />
+        <ListBox ItemsSource="{Binding}" Height="161" HorizontalAlignment="Left" Margin="12,151,0,0" Name="lstBoxActiveGenes" VerticalAlignment="Top" Width="256" Background="Green" Foreground="White" />
+        <ListBox ItemsSource="{Binding}" Height="161" HorizontalAlignment="Left" Margin="297,151,0,0" Name="lstBoxInactiveGenes" VerticalAlignment="Top" Width="256" Background="Red" Foreground="White" />
+        <Label Content="Active genes:" Height="28" HorizontalAlignment="Left" Margin="12,130,0,0" Name="label1" VerticalAlignment="Top" />
+        <Label Content="Inactive genes:" Height="28" HorizontalAlignment="Left" Margin="297,130,0,0" Name="label2" VerticalAlignment="Top" />
+    </Grid>
+</Window>
