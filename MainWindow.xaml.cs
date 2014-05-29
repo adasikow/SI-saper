@@ -43,11 +43,11 @@ namespace saper
         private void startButton_Click(object sender, RoutedEventArgs e)
         {
             Settings.MAP_SIZE = minefieldSize;
-            MinefieldWindow minefieldWindow = new MinefieldWindow(minefieldSize);
-            MinesweeperKnowledgeWindow minesweeperKnowledgeWindow = new MinesweeperKnowledgeWindow();
+            MinefieldWindow minefieldWindow = new MinefieldWindow();
+            //MinesweeperKnowledgeWindow minesweeperKnowledgeWindow = new MinesweeperKnowledgeWindow();
             GeneticsWindow gw = new GeneticsWindow();
             minefieldWindow.Show();
-            minesweeperKnowledgeWindow.Show();
+            //minesweeperKnowledgeWindow.Show();
             gw.Show();
         }
 

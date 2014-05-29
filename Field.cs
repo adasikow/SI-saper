@@ -5,44 +5,45 @@ using System.Text;
 
 namespace saper
 {
-    public enum FieldType { Grass, Scrap }
-
     class Field
     {
-        public bool hasMine { get; private set; }
+        private const double MAX_DEPTH = 0.5;
+        public Explosive explosive { get; private set; }
         public double mineDepth { get; private set; }
-        public FieldType type { get; private set; }
+        public Frame.FieldType type { get; private set; }
 
-        public Field(FieldType fieldType)
+        public Field()
         {
-            this.hasMine = false;
+            this.explosive = null;
+            this.mineDepth = 0.0;
+            this.type = Frame.FieldType.Grass;
+        }
+
+        public Field(Frame.FieldType fieldType)
+        {
+            this.explosive = null;
             this.mineDepth = 0.0;
             this.type = fieldType;
         }
 
-        public void placeMine(double depth)
+        public void placeExplosive(Explosive explosive, double depth)
         {
-            this.hasMine = true;
+            this.explosive = explosive;
             if (depth < 0.0)
                 this.mineDepth = 0.0;
-            else if (depth > 1.0)
-                this.mineDepth = 1.0;
+            else if (depth > MAX_DEPTH)
+                this.mineDepth = MAX_DEPTH;
             else
                 this.mineDepth = depth;
         }
 
-        public void placeMine()
+        public void disarmExplosive()
         {
-            this.hasMine = true;
-            this.mineDepth = 0.0;
+            if (explosive != null)
+            {
+                explosive = null;
+            }
         }
-
-        public void disarm()
-        {
-            this.hasMine = false;
-            this.mineDepth = 0.0;
-        }
-
 
     }
 }

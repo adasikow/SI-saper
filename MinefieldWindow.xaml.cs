@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace saper
 {
@@ -20,21 +21,37 @@ namespace saper
     {
         private MapManager mapManager;
         private Minesweeper minesweeper;
-        int minefieldSize;
+        private Minefield minefield;
+        //private Image minesweeperImage;
+        //private Image mineImage;
+        private MinePositionsGenerator mpg;
 
-        public MinefieldWindow(int minefieldSize)
+        public MinefieldWindow()
         {
             InitializeComponent();
-            this.minefieldSize = minefieldSize;
-            for (int i = 0; i < this.minefieldSize; ++i)
+            for (int i = 0; i < Settings.MAP_SIZE; ++i)
             {
                 minefieldGrid.ColumnDefinitions.Add(new ColumnDefinition());
                 minefieldGrid.RowDefinitions.Add(new RowDefinition());
             }
             mapManager = new MapManager();
-            minesweeper = new Minesweeper(this.minefieldSize);
+            //minesweeper.LocationUpdate += HandleLocationUpdate;
+            minefield = new Minefield(Settings.MAP_SIZE);
+            minesweeper = new Minesweeper(minefield.generateInitialMinefieldFrame());
             ResetMineField();
+            mpg = new MinePositionsGenerator();
         }
+
+        /*
+        private void HandleLocationUpdate(object sender, MinesweeperEventArgs e)
+        {
+            minefieldGrid.Dispatcher.Invoke(new Action((() =>
+            {
+                Grid.SetColumn(minesweeper.minesweeperImage, e.x);
+                Grid.SetRow(minesweeper.minesweeperImage, e.y);
+            })), new object[] { this } );
+        }
+        */
 
         public void ResetMineField()
         {
@@ -60,6 +77,12 @@ namespace saper
                     break;
                 case Key.R:
                     ResetMineField();
+                    break;
+                case Key.Enter:
+                    minesweeper.Search(mapManager.minePositions);
+                    break;
+                case Key.N:
+                    minesweeper.NextMove();
                     break;
             }
         }

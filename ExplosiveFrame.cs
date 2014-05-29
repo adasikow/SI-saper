@@ -7,24 +7,17 @@ namespace saper
 {
     class ExplosiveFrame
     {
-        public string shape { get; private set; }
-        public string colour { get; private set; }
-        public float weight { get; private set; }
-        public bool makesSound { get; private set; }
-        public bool hasLight { get; private set; }
+        public Shape shape { get; set; }
+        public Colour colour { get; set; }
+        public Material material { get; set; }
+        public Hardness hardness { get; set; }
+        public float weight { get; set; }
+        public bool makesSound { get; set; }
+        public bool hasLight { get; set; }
 
-        private List<ExplosiveFrame> connectedExplosives;
+        //private List<ExplosiveFrame> connectedExplosives;
 
-        public ExplosiveFrame(string shape, string colour, float weight, bool makesSound, bool hasLight)
-        {
-            this.shape = shape;
-            this.colour = colour;
-            this.weight = weight;
-            this.makesSound = makesSound;
-            this.hasLight = hasLight;
-            this.connectedExplosives = new List<ExplosiveFrame>();
-        }
-
+        /*
         public void addConnectedExplosive(ExplosiveFrame explosive)
         {
             if (!connectedExplosives.Contains(explosive))
@@ -39,5 +32,6 @@ namespace saper
             if (connectedExplosives.Remove(explosive))
                 explosive.removeConnected(this);
         }
+        */
     }
 }
