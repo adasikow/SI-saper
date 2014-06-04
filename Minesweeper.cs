@@ -24,52 +24,34 @@ namespace saper
         private List<State> path;
         private int pathIterator;
 
-        public event EventHandler<MinesweeperEventArgs> LocationUpdate;
-
-        //private List<DisarmMethodFrame> disarmMethodsKnowledge;
-        //private List<ExplosiveFrame> explosivesKnowledge;
-        //private FieldFrame[,] minefieldKnowledge;
-
-        public Minesweeper(Frame.Minefield initialMinefieldKnowledge)
+        public Minesweeper(int x, int y, Frame.Minefield initialMinefieldKnowledge)
         {
             this.minefieldSize = Settings.MAP_SIZE;
-            this.SetX(0);
-            this.SetY(0);
-            this.facingDirection = Directions.Up;
+            this.SetX(x);
+            this.SetY(y);
+            this.facingDirection = Directions.Down;
             this.minesweeperImage = new Image();
             this.minesweeperImage.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/saper.png"));
             this.minefield = initialMinefieldKnowledge;
-
-            //this.minefieldKnowledge = new FieldFrame[this.minefieldSize, this.minefieldSize];
-            //this.disarmMethodsKnowledge = new List<DisarmMethodFrame>();
-            //this.explosivesKnowledge = new List<ExplosiveFrame>();
-
         }
 
-        public Minesweeper(int x, int y)
-        {
-            this.minefieldSize = Settings.MAP_SIZE;
-            this.SetX(x);
-            this.SetY(y);
-            this.facingDirection = Directions.Up;
-            this.minesweeperImage = new Image();
-            this.minesweeperImage.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/saper.png"));
-        }
+        public Minesweeper(Frame.Minefield initialMinefieldKnowledge) : this(0, 0, initialMinefieldKnowledge) { }
 
-        private void SetLocation(int x, int y)
+        private void SetLocation(int x, int y, Directions direction)
         {
             this.SetX(x);
             this.SetY(y);
+            this.facingDirection = direction;
             this.UpdateLocation();
         }
 
         public void NextMove()
         {
-            if (path != null)if (path.Count > 0 && pathIterator < path.Count)
+            if (path != null)
             {
                 if (path.Count > 0 && pathIterator < path.Count)
                 {
-                    this.SetLocation(path[pathIterator].x, path[pathIterator].y);
+                    this.SetLocation(path[pathIterator].x, path[pathIterator].y, path[pathIterator].facingDirection);
                     pathIterator++;
                 }
             }
@@ -79,17 +61,6 @@ namespace saper
         {
             Grid.SetColumn(this.minesweeperImage, this.GetX());
             Grid.SetRow(this.minesweeperImage, this.GetY());
-            //OnLocationUpdate(this.GetX(), this.GetY());
-            //Thread.Sleep(100);
-        }
-
-        private void OnLocationUpdate(int x, int y)
-        {
-            var handler = LocationUpdate;
-            if (handler != null)
-            {
-                handler(this, new MinesweeperEventArgs(x, y));
-            }
         }
 
         private void SetX(int x)
@@ -124,22 +95,30 @@ namespace saper
 
         private void MoveUp()
         {
-            SetLocation(this.GetX(), this.GetY() - 1);
+            SetX(GetX());
+            SetY(GetY() - 1);
+            UpdateLocation();
         }
 
         private void MoveDown()
         {
-            SetLocation(this.GetX(), this.GetY() + 1);
+            SetX(GetX());
+            SetY(GetY() + 1);
+            UpdateLocation();
         }
 
         private void MoveLeft()
         {
-            SetLocation(this.GetX() - 1, this.GetY());
+            SetX(GetX() - 1);
+            SetY(GetY());
+            UpdateLocation();
         }
 
         private void MoveRight()
         {
-            SetLocation(this.GetX() + 1, this.GetY());
+            SetX(GetX() + 1);
+            SetY(GetY());
+            UpdateLocation();
         }
 
         public void RotateLeft()
@@ -188,16 +167,16 @@ namespace saper
             return Math.Abs(x1 - x2) + Math.Abs(y1 - y2);
         }
 
-        private int findNearestExplosive(List<Point> explosives)
+        private int findNearestExplosive(State startState, List<Point> explosives)
         {
             int resultIndex = 0;
-            int currentMinDistance = calculateDistance(this.GetX(), this.GetY(), Convert.ToInt32(explosives[resultIndex].X), Convert.ToInt32(explosives[resultIndex].Y));
+            int currentMinDistance = calculateDistance(startState.x, startState.y, Convert.ToInt32(explosives[resultIndex].X), Convert.ToInt32(explosives[resultIndex].Y));
             for (int i = 1; i < explosives.Count; ++i)
             {
-                if (calculateDistance(this.GetX(), this.GetY(), Convert.ToInt32(explosives[i].X), Convert.ToInt32(explosives[i].Y)) < currentMinDistance)
+                if (calculateDistance(startState.x, startState.y, Convert.ToInt32(explosives[i].X), Convert.ToInt32(explosives[i].Y)) < currentMinDistance)
                 {
                     resultIndex = i;
-                    currentMinDistance = calculateDistance(this.GetX(), this.GetY(), Convert.ToInt32(explosives[i].X), Convert.ToInt32(explosives[i].Y));
+                    currentMinDistance = calculateDistance(startState.x, startState.y, Convert.ToInt32(explosives[i].X), Convert.ToInt32(explosives[i].Y));
                 }
             }
 
@@ -208,11 +187,11 @@ namespace saper
         {
             this.pathIterator = 0;
             this.path = new List<State>();
+            State startState = new State(this.GetX(), this.GetY(), this.minefieldSize, this.facingDirection);
             while(explosives.Count > 0)
             {
-                int i = findNearestExplosive(explosives);
+                int i = findNearestExplosive(startState, explosives);
                 List<State> visitedStates = new List<State>();
-                State startState = new State(this.GetX(), this.GetY(), this.minefieldSize, this.facingDirection);
                 State currentState = default(State);
                 State finalState = new State(Convert.ToInt32(explosives[i].X), Convert.ToInt32(explosives[i].Y), this.minefieldSize);
                 PriorityQueue<int, State> queue = new PriorityQueue<int, State>();
@@ -240,9 +219,7 @@ namespace saper
                     newState = currentState.RotateRightAction();
                     queue.Enqueue(newState.calculateEstimatedDistance(1, finalState), newState);
                 }
-                this.SetX(currentState.x);
-                this.SetY(currentState.y);
-                this.facingDirection = currentState.facingDirection;
+                startState = new State(currentState.x, currentState.y, this.minefieldSize, currentState.facingDirection);
                 Stack<State> singlePath = new Stack<State>();
                 while (currentState != null)
                 {
@@ -255,29 +232,5 @@ namespace saper
             }
 
         }
-
-        //wyszukiwanie rozwiazania
-        //dopoki (liczba_bomb > 0)
-        //  wyznacz kolejna bombe do rozbrojenia
-        //  utworz stan koncowy
-        //  utworz stan obecny
-        //  dodaj do kolejki/stosu obecny stan
-        //  dopoki stan obecny != stan koncowy
-        //      pobierz stan
-        //      wygeneruj wszystkie mozliwe nastepne stany
-        //      te stany, ktore jeszcze nie zostaly odwiedzone dodaj do kolejki/stosu stanow do przeszukania
-        //  odtworz sciezke za pomoca stanow - rodzicow i zapapamietaj
-        //zwroc sciezke
-    }
-}
-
-public class MinesweeperEventArgs : EventArgs
-{
-    public int x { get; private set; }
-    public int y { get; private set; }
-    public MinesweeperEventArgs(int x, int y)
-    {
-        this.x = x;
-        this.y = y;
     }
 }

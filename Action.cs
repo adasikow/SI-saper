@@ -7,6 +7,16 @@ namespace saper
 {
     class Action
     {
-        //virtual public void Perform();
+        private Func<void, void> actionName;
+
+        public Action(Func<void, void> actionName)
+        {
+            this.actionName = actionName;
+        }
+
+        public void Perform(Minesweeper minesweeper)
+        {
+            minesweeper.actionName();
+        }
     }
 }

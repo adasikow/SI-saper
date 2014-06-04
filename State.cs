@@ -12,7 +12,7 @@ namespace saper
         public int x { get; private set; }
         public int y { get; private set; }
         private int minefieldSize;
-        public int currentEstimatedCost { get; private set; }
+        private int currentEstimatedCost;
 
         public State(int x, int y, int minefieldSize, State parentState = null)
         {

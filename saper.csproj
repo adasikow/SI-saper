@@ -70,7 +70,6 @@
       <DependentUpon>GeneticsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="IParentsSelectionStrategy.cs" />
-    <Compile Include="Action.cs" />
     <Compile Include="Explosive.cs" />
     <Compile Include="MapManager.cs" />
     <Compile Include="Mine.cs" />
