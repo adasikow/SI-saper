@@ -18,25 +18,30 @@ namespace saper
     {
 
         //private Mine mine;
+        private Minefield minefield;
 
-        public Point[] minePositions { get; private set; }
+        public List<Point> minePositions { get; private set; }
 
-        public MapManager()
+        public MapManager(Minefield minefield)
         {
+            this.minefield = minefield;
+            minePositions = new List<Point>();
         }
 
         public void DrawMap(Grid pole)
         {
             MinePositionsGenerator mpg = new MinePositionsGenerator();
-            minePositions = mpg.GenerateMinePositions(Settings.NR_OF_MINES);
+            minePositions.AddRange(mpg.GenerateMinePositions(Settings.NR_OF_MINES, minefield));
 
-            for (ushort i = 0; i < Settings.NR_OF_MINES; ++i)
+            for (ushort i = 0; i < minePositions.Count; ++i)
             {
                 Mine newMine = new Mine();
                 Grid.SetColumn(newMine.mineImage, (int)minePositions[i].X);
                 Grid.SetRow(newMine.mineImage, (int)minePositions[i].Y);
                 pole.Children.Add(newMine.mineImage);
             }
+
         }
+
     }
 }

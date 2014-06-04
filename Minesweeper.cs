@@ -37,7 +37,7 @@ namespace saper
             this.SetY(0);
             this.facingDirection = Directions.Up;
             this.minesweeperImage = new Image();
-            this.minesweeperImage.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/saper.jpg"));
+            this.minesweeperImage.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/saper.png"));
             this.minefield = initialMinefieldKnowledge;
 
             //this.minefieldKnowledge = new FieldFrame[this.minefieldSize, this.minefieldSize];
@@ -53,7 +53,7 @@ namespace saper
             this.SetY(y);
             this.facingDirection = Directions.Up;
             this.minesweeperImage = new Image();
-            this.minesweeperImage.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/saper.jpg"));
+            this.minesweeperImage.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/saper.png"));
         }
 
         private void SetLocation(int x, int y)
@@ -65,10 +65,13 @@ namespace saper
 
         public void NextMove()
         {
-            if (pathIterator < path.Count)
+            if (path != null)if (path.Count > 0 && pathIterator < path.Count)
             {
-                this.SetLocation(path[pathIterator].x, path[pathIterator].y);
-                pathIterator++;
+                if (path.Count > 0 && pathIterator < path.Count)
+                {
+                    this.SetLocation(path[pathIterator].x, path[pathIterator].y);
+                    pathIterator++;
+                }
             }
         }
 
@@ -180,37 +183,62 @@ namespace saper
             return a.x == b.x && a.y == b.y && a.facingDirection == b.facingDirection;
         }
 
-        public void Search(Point[] explosives)
+        private int calculateDistance(int x1, int y1, int x2, int y2)
+        {
+            return Math.Abs(x1 - x2) + Math.Abs(y1 - y2);
+        }
+
+        private int findNearestExplosive(List<Point> explosives)
+        {
+            int resultIndex = 0;
+            int currentMinDistance = calculateDistance(this.GetX(), this.GetY(), Convert.ToInt32(explosives[resultIndex].X), Convert.ToInt32(explosives[resultIndex].Y));
+            for (int i = 1; i < explosives.Count; ++i)
+            {
+                if (calculateDistance(this.GetX(), this.GetY(), Convert.ToInt32(explosives[i].X), Convert.ToInt32(explosives[i].Y)) < currentMinDistance)
+                {
+                    resultIndex = i;
+                    currentMinDistance = calculateDistance(this.GetX(), this.GetY(), Convert.ToInt32(explosives[i].X), Convert.ToInt32(explosives[i].Y));
+                }
+            }
+
+            return resultIndex;
+        }
+
+        public void Search(List<Point> explosives)
         {
             this.pathIterator = 0;
             this.path = new List<State>();
-            for(int i = 0; i < explosives.Length; ++i)
+            while(explosives.Count > 0)
             {
+                int i = findNearestExplosive(explosives);
                 List<State> visitedStates = new List<State>();
                 State startState = new State(this.GetX(), this.GetY(), this.minefieldSize, this.facingDirection);
-                State currentState;
+                State currentState = default(State);
                 State finalState = new State(Convert.ToInt32(explosives[i].X), Convert.ToInt32(explosives[i].Y), this.minefieldSize);
                 PriorityQueue<int, State> queue = new PriorityQueue<int, State>();
                 queue.Enqueue(startState.calculateEstimatedDistance(0, finalState), startState);
-                currentState = startState;
-                while (!currentState.isFinalState(finalState))
+                while (!queue.IsEmpty)
                 {
                     currentState = queue.DequeueValue();
-                    //this.SetLocation(currentState.x, currentState.y);
+                    if (visited(visitedStates, currentState))
+                        continue;
+                    if (currentState.isFinalState(finalState))
+                        break;
+
                     visitedStates.Add(currentState);
                     State newState;
 
                     newState = currentState.MoveForwardAction();
-                    if(!visited(visitedStates, newState))
-                        queue.Enqueue(newState.calculateEstimatedDistance(2, finalState), newState);
+                    if (minefield.fields[newState.x, newState.y].type == Frame.FieldType.Scrap)
+                        queue.Enqueue(newState.calculateEstimatedDistance(25, finalState), newState);
+                    else //if(minefield.fields[newState.x, newState.y].type == Frame.FieldType.Grass)
+                        queue.Enqueue(newState.calculateEstimatedDistance(5, finalState), newState);
 
                     newState = currentState.RotateLeftAction();
-                    if (!visited(visitedStates, newState))
-                        queue.Enqueue(newState.calculateEstimatedDistance(1, finalState), newState);
+                    queue.Enqueue(newState.calculateEstimatedDistance(1, finalState), newState);
 
                     newState = currentState.RotateRightAction();
-                    if (!visited(visitedStates, newState))
-                        queue.Enqueue(newState.calculateEstimatedDistance(1, finalState), newState);
+                    queue.Enqueue(newState.calculateEstimatedDistance(1, finalState), newState);
                 }
                 this.SetX(currentState.x);
                 this.SetY(currentState.y);
@@ -223,6 +251,7 @@ namespace saper
                 }
                 while (singlePath.Count != 0)
                     path.Add(singlePath.Pop());
+                explosives.RemoveAt(i);
             }
 
         }

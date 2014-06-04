@@ -138,9 +138,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="res\saper.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="res\mine.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +145,12 @@
       <Project>{C84D5352-77E7-4456-AF67-DBAFE64CD1F1}</Project>
       <Name>Frame</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\scrap.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\saper.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

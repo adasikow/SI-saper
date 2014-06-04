@@ -7,18 +7,26 @@ namespace saper
 {
     class Minefield
     {
-        private Field[,] fieldArray;
+        public Field[,] fieldArray { get; private set; }
         public double[,] radiationMap { get; private set; }
         private int minefieldSize;
 
         public Minefield(int size)
         {
             this.minefieldSize = size;
+            Random rand = new Random();
 
             this.fieldArray = new Field[minefieldSize, minefieldSize];
             for (int i = 0; i < minefieldSize; ++i)
                 for (int j = 0; j < minefieldSize; ++j)
-                    addField(i, j, Frame.FieldType.Grass);
+                {
+                    int nextRand = (int)(rand.Next() % 101);
+                    double type = (double)nextRand / 100;
+                    if(type < 0.2)
+                        addField(i, j, Frame.FieldType.Scrap);
+                    else
+                        addField(i, j, Frame.FieldType.Grass);
+                }
 
             this.radiationMap = new double[minefieldSize, minefieldSize];
             Array.Clear(this.radiationMap, 0, this.minefieldSize);

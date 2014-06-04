@@ -12,6 +12,7 @@ namespace saper
         public int x { get; private set; }
         public int y { get; private set; }
         private int minefieldSize;
+        public int currentEstimatedCost { get; private set; }
 
         public State(int x, int y, int minefieldSize, State parentState = null)
         {
@@ -19,9 +20,14 @@ namespace saper
             this.y = y;
             this.minefieldSize = minefieldSize;
             this.parentState = parentState;
+            if (parentState != null)
+                this.currentEstimatedCost = parentState.currentEstimatedCost;
+            else
+                this.currentEstimatedCost = 0;
         }
 
-        public State(int x, int y, int minefieldSize, Directions facingDirection, State parentState = null) : this(x, y, minefieldSize, parentState)
+        public State(int x, int y, int minefieldSize, Directions facingDirection, State parentState = null) 
+            : this(x, y, minefieldSize, parentState)
         {
             this.facingDirection = facingDirection;
         }
@@ -36,9 +42,10 @@ namespace saper
             return calculateDistance(finalState) == 0;
         }
 
-        public int calculateEstimatedDistance(int actionCost, State finalState)
+        public int calculateEstimatedDistance(int reachCost, State finalState)
         {
-            return actionCost + calculateDistance(finalState);
+            this.currentEstimatedCost += reachCost;
+            return this.currentEstimatedCost + calculateDistance(finalState);
         }
 
         private Directions RotateLeft()

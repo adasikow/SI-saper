@@ -34,12 +34,27 @@ namespace saper
                 minefieldGrid.ColumnDefinitions.Add(new ColumnDefinition());
                 minefieldGrid.RowDefinitions.Add(new RowDefinition());
             }
-            mapManager = new MapManager();
+            //mapManager = new MapManager();
             //minesweeper.LocationUpdate += HandleLocationUpdate;
             minefield = new Minefield(Settings.MAP_SIZE);
+            mapManager = new MapManager(minefield);
             minesweeper = new Minesweeper(minefield.generateInitialMinefieldFrame());
             ResetMineField();
             mpg = new MinePositionsGenerator();
+        }
+
+        private void drawFieldTypes()
+        {
+            for (int i = 0; i < Settings.MAP_SIZE; ++i)
+                for (int j = 0; j < Settings.MAP_SIZE; ++j)
+                {
+                    if (minefield.fieldArray[i, j].type == Frame.FieldType.Scrap)
+                    {
+                        Grid.SetColumn(minefield.fieldArray[i, j].scrapImage, i);
+                        Grid.SetRow(minefield.fieldArray[i, j].scrapImage, j);
+                        minefieldGrid.Children.Add(minefield.fieldArray[i, j].scrapImage);
+                    }
+                }
         }
 
         /*
@@ -56,7 +71,8 @@ namespace saper
         public void ResetMineField()
         {
             minefieldGrid.Children.Clear();
-            minefieldGrid.Children.Add(minesweeper.minesweeperImage);
+            drawFieldTypes();
+            //minefieldGrid.Children.Add(minesweeper.minesweeperImage);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -79,6 +95,7 @@ namespace saper
                     ResetMineField();
                     break;
                 case Key.Enter:
+                    minefieldGrid.Children.Add(minesweeper.minesweeperImage);
                     minesweeper.Search(mapManager.minePositions);
                     break;
                 case Key.N:
