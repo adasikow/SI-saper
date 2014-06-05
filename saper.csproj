@@ -71,8 +71,6 @@
     </Compile>
     <Compile Include="IParentsSelectionStrategy.cs" />
     <Compile Include="Explosive.cs" />
-    <Compile Include="MapManager.cs" />
-    <Compile Include="Mine.cs" />
     <Compile Include="MinePositionsGenerator.cs" />
     <Compile Include="PriorityQueue.cs" />
     <Compile Include="RouletteSelection.cs" />
@@ -137,9 +135,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="res\mine.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="Frame\Frame.csproj">
       <Project>{C84D5352-77E7-4456-AF67-DBAFE64CD1F1}</Project>
       <Name>Frame</Name>
@@ -150,6 +145,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="res\saper.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\explosive.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

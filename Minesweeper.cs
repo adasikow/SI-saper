@@ -5,8 +5,6 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using System.Threading;
-using System.Windows.Threading;
 
 namespace saper
 {
@@ -19,10 +17,11 @@ namespace saper
         private int y;
         private int minefieldSize;
         private Chromosome chromosome { get; set; }
-        public Image minesweeperImage { get; private set; }
+        public Image image { get; private set; }
         private Frame.Minefield minefield;
-        private List<State> path;
+        private List<Action> path;
         private int pathIterator;
+        private int code;
 
         public Minesweeper(int x, int y, Frame.Minefield initialMinefieldKnowledge)
         {
@@ -30,37 +29,26 @@ namespace saper
             this.SetX(x);
             this.SetY(y);
             this.facingDirection = Directions.Down;
-            this.minesweeperImage = new Image();
-            this.minesweeperImage.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/saper.png"));
+            this.image = new Image();
+            this.image.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/saper.png"));
             this.minefield = initialMinefieldKnowledge;
         }
 
         public Minesweeper(Frame.Minefield initialMinefieldKnowledge) : this(0, 0, initialMinefieldKnowledge) { }
 
-        private void SetLocation(int x, int y, Directions direction)
+        public void AddExplosivesLocations(List<Point> location)
         {
-            this.SetX(x);
-            this.SetY(y);
-            this.facingDirection = direction;
-            this.UpdateLocation();
+            for (int i = 0; i < location.Count; ++i)
+                minefield.fields[Convert.ToInt32(location[i].X), Convert.ToInt32(location[i].Y)].explosive = new Frame.Explosive();
         }
 
-        public void NextMove()
+        public int NextMove()
         {
-            if (path != null)
-            {
-                if (path.Count > 0 && pathIterator < path.Count)
-                {
-                    this.SetLocation(path[pathIterator].x, path[pathIterator].y, path[pathIterator].facingDirection);
-                    pathIterator++;
-                }
-            }
-        }
+            code = 0;
+            if (path != null && path.Count > 0 && pathIterator < path.Count)
+                this.path[pathIterator++]();
 
-        private void UpdateLocation()
-        {
-            Grid.SetColumn(this.minesweeperImage, this.GetX());
-            Grid.SetRow(this.minesweeperImage, this.GetY());
+            return code;
         }
 
         private void SetX(int x)
@@ -97,28 +85,24 @@ namespace saper
         {
             SetX(GetX());
             SetY(GetY() - 1);
-            UpdateLocation();
         }
 
         private void MoveDown()
         {
             SetX(GetX());
             SetY(GetY() + 1);
-            UpdateLocation();
         }
 
         private void MoveLeft()
         {
             SetX(GetX() - 1);
             SetY(GetY());
-            UpdateLocation();
         }
 
         private void MoveRight()
         {
             SetX(GetX() + 1);
             SetY(GetY());
-            UpdateLocation();
         }
 
         public void RotateLeft()
@@ -147,6 +131,17 @@ namespace saper
                 this.MoveLeft();
             else if (this.facingDirection == Directions.Right)
                 this.MoveRight();
+        }
+
+        public void Recognize()
+        {
+            return;
+        }
+
+        public void Disarm()
+        {
+            minefield.fields[GetX(), GetY()].explosive = null;
+            code = 1;
         }
 
         private Boolean visited(List<State> visitedStates, State state)
@@ -183,11 +178,27 @@ namespace saper
             return resultIndex;
         }
 
-        public void Search(List<Point> explosives)
+        private List<Point> generateExplosivesLocationsList()
+        {
+            List<Point> result = new List<Point>();
+            for(int i = 0; i < minefieldSize; ++i)
+                for (int j = 0; j < minefieldSize; ++j)
+                {
+                    if (minefield.fields[i, j].explosive != null)
+                    {
+                        Point explosiveLocation = new Point(i, j);
+                        result.Add(explosiveLocation);
+                    }
+                }
+            return result;
+        }
+
+        public void Search()
         {
             this.pathIterator = 0;
-            this.path = new List<State>();
+            this.path = new List<Action>();
             State startState = new State(this.GetX(), this.GetY(), this.minefieldSize, this.facingDirection);
+            List<Point> explosives = generateExplosivesLocationsList();
             while(explosives.Count > 0)
             {
                 int i = findNearestExplosive(startState, explosives);
@@ -207,27 +218,29 @@ namespace saper
                     visitedStates.Add(currentState);
                     State newState;
 
-                    newState = currentState.MoveForwardAction();
+                    newState = currentState.MoveForwardAction(Move);
                     if (minefield.fields[newState.x, newState.y].type == Frame.FieldType.Scrap)
                         queue.Enqueue(newState.calculateEstimatedDistance(25, finalState), newState);
                     else //if(minefield.fields[newState.x, newState.y].type == Frame.FieldType.Grass)
                         queue.Enqueue(newState.calculateEstimatedDistance(5, finalState), newState);
 
-                    newState = currentState.RotateLeftAction();
+                    newState = currentState.RotateLeftAction(RotateLeft);
                     queue.Enqueue(newState.calculateEstimatedDistance(1, finalState), newState);
 
-                    newState = currentState.RotateRightAction();
+                    newState = currentState.RotateRightAction(RotateRight);
                     queue.Enqueue(newState.calculateEstimatedDistance(1, finalState), newState);
                 }
                 startState = new State(currentState.x, currentState.y, this.minefieldSize, currentState.facingDirection);
-                Stack<State> singlePath = new Stack<State>();
-                while (currentState != null)
+                Stack<Action> singlePath = new Stack<Action>();
+                while (currentState.lastActionPerformed != null)
                 {
-                    singlePath.Push(currentState);
+                    singlePath.Push(currentState.lastActionPerformed);
                     currentState = currentState.parentState;
                 }
                 while (singlePath.Count != 0)
                     path.Add(singlePath.Pop());
+                //path.Add(Recognize);
+                path.Add(Disarm);
                 explosives.RemoveAt(i);
             }
 

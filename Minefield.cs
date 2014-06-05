@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 namespace saper
 {
@@ -61,11 +62,11 @@ namespace saper
             if (x < minefieldSize && x >= 0 && y < minefieldSize && y >= 0)
             {
                 this.fieldArray[x, y].disarmExplosive();
-                updateRadiationAreaAt(x, y);
+                //updateRadiationAreaAt(x, y);
             }
         }
 
-        public void placeMineAt(int x, int y, float depth, Explosive explosive)
+        public void placeMineAt(int x, int y, double depth, Explosive explosive)
         {
             if (x < minefieldSize && x >= 0 && y < minefieldSize && y >= 0)
             {
@@ -96,6 +97,19 @@ namespace saper
             return minefieldFrame;
         }
 
-
+        public List<Point> GetExplosivesLocations()
+        {
+            List<Point> result = new List<Point>();
+            for(int i = 0; i < minefieldSize; ++i)
+                for (int j = 0; j < minefieldSize; ++j)
+                {
+                    if (fieldArray[i, j].explosive != null)
+                    {
+                        Point explosiveLocation = new Point(i, j);
+                        result.Add(explosiveLocation);
+                    }
+                }
+            return result;
+        }
     }
 }

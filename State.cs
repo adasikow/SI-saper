@@ -13,12 +13,14 @@ namespace saper
         public int y { get; private set; }
         private int minefieldSize;
         private int currentEstimatedCost;
+        public Action lastActionPerformed { get; private set; }
 
-        public State(int x, int y, int minefieldSize, State parentState = null)
+        public State(int x, int y, int minefieldSize, Action actionPerformed = null, State parentState = null)
         {
             this.x = x;
             this.y = y;
             this.minefieldSize = minefieldSize;
+            this.lastActionPerformed = actionPerformed;
             this.parentState = parentState;
             if (parentState != null)
                 this.currentEstimatedCost = parentState.currentEstimatedCost;
@@ -26,8 +28,8 @@ namespace saper
                 this.currentEstimatedCost = 0;
         }
 
-        public State(int x, int y, int minefieldSize, Directions facingDirection, State parentState = null) 
-            : this(x, y, minefieldSize, parentState)
+        public State(int x, int y, int minefieldSize, Directions facingDirection, Action actionPerformed = null, State parentState = null) 
+            : this(x, y, minefieldSize, actionPerformed, parentState)
         {
             this.facingDirection = facingDirection;
         }
@@ -92,19 +94,19 @@ namespace saper
             return result;
         }
 
-        public State RotateLeftAction()
+        public State RotateLeftAction(Action action)
         {
-            return new State(this.x, this.y, this.minefieldSize, this.RotateLeft(), this);
+            return new State(this.x, this.y, this.minefieldSize, this.RotateLeft(), action, this);
         }
 
-        public State RotateRightAction()
+        public State RotateRightAction(Action action)
         {
-            return new State(this.x, this.y, this.minefieldSize, this.RotateRight(), this);
+            return new State(this.x, this.y, this.minefieldSize, this.RotateRight(), action, this);
         }
 
-        public State MoveForwardAction()
+        public State MoveForwardAction(Action action)
         {
-            return new State(this.GetNewX(), this.GetNewY(), this.minefieldSize, this.facingDirection, this);
+            return new State(this.GetNewX(), this.GetNewY(), this.minefieldSize, this.facingDirection, action, this);
         }
 
 
