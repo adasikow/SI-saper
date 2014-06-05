@@ -18,9 +18,12 @@ namespace saper
         private int minefieldSize;
         private Chromosome chromosome { get; set; }
         public Image image { get; private set; }
+        private Image upImage;
+        private Image downImage;
+        private Image leftImage;
+        private Image rightImage;
         private Frame.Minefield minefield;
-        private List<Action> path;
-        private int pathIterator;
+        private Queue<Action> path;
         private int code;
 
         public Minesweeper(int x, int y, Frame.Minefield initialMinefieldKnowledge)
@@ -30,11 +33,31 @@ namespace saper
             this.SetY(y);
             this.facingDirection = Directions.Down;
             this.image = new Image();
+            this.upImage = new Image();
+            this.downImage = new Image();
+            this.leftImage = new Image();
+            this.rightImage = new Image();
             this.image.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/saper.png"));
+            this.upImage.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/up.png"));
+            this.downImage.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/down.png"));
+            this.leftImage.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/left.png"));
+            this.rightImage.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/right.png"));
             this.minefield = initialMinefieldKnowledge;
         }
 
         public Minesweeper(Frame.Minefield initialMinefieldKnowledge) : this(0, 0, initialMinefieldKnowledge) { }
+
+        public Image GetDirectionImage()
+        {
+            if (this.facingDirection == Directions.Up)
+                return this.upImage;
+            else if (this.facingDirection == Directions.Down)
+                return this.downImage;
+            else if (this.facingDirection == Directions.Left)
+                return this.leftImage;
+            else //if (this.facingDirection == Directions.Right)
+                return this.rightImage;
+        }
 
         public void AddExplosivesLocations(List<Point> location)
         {
@@ -45,8 +68,8 @@ namespace saper
         public int NextMove()
         {
             code = 0;
-            if (path != null && path.Count > 0 && pathIterator < path.Count)
-                this.path[pathIterator++]();
+            if (path != null && path.Count > 0)
+                this.path.Dequeue()();
 
             return code;
         }
@@ -195,8 +218,7 @@ namespace saper
 
         public void Search()
         {
-            this.pathIterator = 0;
-            this.path = new List<Action>();
+            this.path = new Queue<Action>();
             State startState = new State(this.GetX(), this.GetY(), this.minefieldSize, this.facingDirection);
             List<Point> explosives = generateExplosivesLocationsList();
             while(explosives.Count > 0)
@@ -238,9 +260,9 @@ namespace saper
                     currentState = currentState.parentState;
                 }
                 while (singlePath.Count != 0)
-                    path.Add(singlePath.Pop());
+                    path.Enqueue(singlePath.Pop());
                 //path.Add(Recognize);
-                path.Add(Disarm);
+                path.Enqueue(Disarm);
                 explosives.RemoveAt(i);
             }
 

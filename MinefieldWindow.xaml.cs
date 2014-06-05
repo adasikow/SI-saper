@@ -62,6 +62,10 @@ namespace saper
         {
             if (minesweeper != null)
             {
+                Grid.SetColumn(minesweeper.GetDirectionImage(), minesweeper.GetX());
+                Grid.SetRow(minesweeper.GetDirectionImage(), minesweeper.GetY());
+                minefieldGrid.Children.Add(minesweeper.GetDirectionImage());
+
                 Grid.SetColumn(minesweeper.image, minesweeper.GetX());
                 Grid.SetRow(minesweeper.image, minesweeper.GetY());
                 minefieldGrid.Children.Add(minesweeper.image);
