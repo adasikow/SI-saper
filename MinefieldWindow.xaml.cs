@@ -25,6 +25,9 @@ namespace saper
         public MinefieldWindow()
         {
             InitializeComponent();
+            System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+            customCulture.NumberFormat.NumberDecimalSeparator = ".";
+            System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
             InitializeGrid();
             Reset();
             Redraw();
@@ -98,6 +101,20 @@ namespace saper
             drawMinesweeper();
         }
 
+        private void WriteToFile(Frame.Minefield minefield, string filename)
+        {
+            List<string> lines = new List<string>();
+            for(int i = 0; i < minefield.size; ++i)
+            {
+                string line = "";
+                for (int j = 0; j < minefield.size; ++j)
+                {
+                    line += minefield.fields[j, i].radiation.ToString() + " ";
+                }
+                lines.Add(line);
+            }
+            System.IO.File.WriteAllLines(@"D:\" + filename + ".txt", lines);
+        }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
@@ -113,6 +130,11 @@ namespace saper
 
                 case Key.G:
                     mpg.GenerateMinePositions(Settings.NR_OF_MINES, minefield);
+                    break;
+
+                case Key.P:
+                    WriteToFile(minefield.generateInitialMinefieldFrame(), "input");
+                    WriteToFile(minefield.generateFakeFrame(), "output");
                     break;
 
                 case Key.R:

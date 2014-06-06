@@ -11,6 +11,7 @@ namespace saper
         public Field[,] fieldArray { get; private set; }
         public double[,] radiationMap { get; private set; }
         private int minefieldSize;
+        private double radiationMax;
 
         public Minefield(int size)
         {
@@ -31,6 +32,7 @@ namespace saper
 
             this.radiationMap = new double[minefieldSize, minefieldSize];
             Array.Clear(this.radiationMap, 0, this.minefieldSize);
+            radiationMax = 0.0;
         }
 
         private bool isInRange(int x, int y)
@@ -40,21 +42,29 @@ namespace saper
 
         private void updateRadiationAreaAt(int x, int y)
         {
-            for(int row = y - 1; row <= y + 1; ++row)
-                for (int column = x - 1; column <= x + 1; ++column)
+            for(int i = x - 2; i <= x + 2; ++i)
+                for (int j = y - 2; j <= y + 2; ++j)
                 {
-                    if(isInRange(column, row))
+                    if(isInRange(i, j))
                     {
-                        if (Math.Abs(column - x) == 1 || Math.Abs(row - y) == 1) //pole na przekątnej
-                            radiationMap[column, row] += 0.25 * (1 - fieldArray[column, row].mineDepth);
-                        else if (column == x && row == y) //pole x, y
-                            radiationMap[column, row] += 1.0 * (1 - fieldArray[column, row].mineDepth);
-                        else if (Math.Abs(column - x) == 2 || Math.Abs(row - y) == 2) //pole odległe o 2
-                            radiationMap[column, row] += 0.25 * (1 - fieldArray[column, row].mineDepth);
-                        else //pole odległe o jeden
-                            radiationMap[column, row] += 0.5 * (1 - fieldArray[column, row].mineDepth);
+                        if (Math.Abs(i - x) == 1 && Math.Abs(j - y) == 1) //pole na przekątnej
+                            increaseRadiation(i, j, 0.25 * (1 - fieldArray[x, y].mineDepth));
+                        else if (i == x && j == y) //pole x, y
+                            increaseRadiation(i, j, 1.0 * (1 - fieldArray[x, y].mineDepth));
+                        else if ((Math.Abs(i - x) == 0 && Math.Abs(j - y) == 2) || (Math.Abs(i - x) == 2 && Math.Abs(j - y) == 0)) //pole odległe o 2
+                            increaseRadiation(i, j, 0.25 * (1 - fieldArray[x, y].mineDepth));
+                        else if ((Math.Abs(i - x) == 0 && Math.Abs(j - y) == 1) || (Math.Abs(i - x) == 1 && Math.Abs(j - y) == 0)) //pole odległe o jeden
+                            increaseRadiation(i, j, 0.5 * (1 - fieldArray[x, y].mineDepth));
                     }
                 }
+        }
+
+
+        private void increaseRadiation(int x, int y, double radiation)
+        {
+            radiationMap[x, y] += radiation;
+            if (radiationMap[x, y] > radiationMax)
+                radiationMax = radiationMap[x, y];
         }
 
         public void disarmAt(int x, int y)
@@ -90,7 +100,32 @@ namespace saper
                 {
                     Frame.Field fieldFrame = new Frame.Field();
                     fieldFrame.type = fieldArray[i, j].type;
-                    fieldFrame.radiation = radiationMap[i, j];
+
+                    if (radiationMax != 0.0)
+                        fieldFrame.radiation = radiationMap[i, j] / radiationMax;
+                    else
+                        fieldFrame.radiation = radiationMap[i, j];
+
+                    minefieldFrame.fields[i, j] = fieldFrame;
+                }
+
+            return minefieldFrame;
+        }
+
+        public Frame.Minefield generateFakeFrame()
+        {
+            Frame.Minefield minefieldFrame = new Frame.Minefield(this.minefieldSize);
+
+            for (int i = 0; i < this.minefieldSize; ++i)
+                for (int j = 0; j < this.minefieldSize; ++j)
+                {
+                    Frame.Field fieldFrame = new Frame.Field();
+
+                    if (fieldArray[i, j].explosive == null)
+                        fieldFrame.radiation = 0;
+                    else
+                        fieldFrame.radiation = 1;
+
                     minefieldFrame.fields[i, j] = fieldFrame;
                 }
 
