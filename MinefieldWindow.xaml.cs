@@ -145,8 +145,15 @@ namespace saper
                 case Key.Space:
                     if (minesweeper != null)
                     {
-                        if (minesweeper.NextMove() == 1)
+                        int code = minesweeper.NextMove();
+                        if (code == 1)
+                        {
                             minefield.disarmAt(minesweeper.GetX(), minesweeper.GetY());
+                        }
+                        //else if (code == 2 && minefield.fieldArray)
+                        //{
+                        //    minesweeper.Reco
+                        //}
                     }
                     break;
 
