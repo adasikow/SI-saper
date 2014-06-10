@@ -22,5 +22,10 @@ namespace saper
         {
             InitializeComponent();
         }
+
+        public void Redraw(Frame.Minefield minefield)
+        {
+            return;
+        }
     }
 }

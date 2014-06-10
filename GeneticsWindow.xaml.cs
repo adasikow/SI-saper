@@ -120,5 +120,10 @@ namespace saper
 
             FillListsOfGenes(individualId);
         }
+
+        public Chromosome getCurrentChromosome()
+        {
+            return population[individualId];
+        }
     }
 }

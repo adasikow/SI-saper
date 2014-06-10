@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace saper
 {
-    class Chromosome
+    public class Chromosome
     {
         private List< KeyValuePair<String, bool> > genes;
         

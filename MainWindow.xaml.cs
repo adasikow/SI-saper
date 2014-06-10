@@ -24,36 +24,25 @@ namespace saper
 
     public partial class MainWindow : Window
     {
-        List<String> problemSolveMethods;
 
-        ushort minefieldSize = 0;
+        ushort explosivesCount = 0;
 
         public MainWindow()
         {
             InitializeComponent();
-            problemSolveMethods = new List<String>();
-            problemSolveMethods.Add("Przeszukanie przestreni stanów");
-            problemSolveMethods.Add("Drzewa decyzyjne");
-            problemSolveMethods.Add("Algorytmy genetyczne");
-            problemSolveMethods.Add("Algorytmy uczenia symbolicznego");
-            problemSolveMethods.Add("Sieci neuronowe");
-            methodSelectionBox.ItemsSource = problemSolveMethods;
         }
 
         private void startButton_Click(object sender, RoutedEventArgs e)
         {
-            Settings.MAP_SIZE = minefieldSize;
+            Settings.NR_OF_MINES = explosivesCount;
             MinefieldWindow minefieldWindow = new MinefieldWindow();
-            //MinesweeperKnowledgeWindow minesweeperKnowledgeWindow = new MinesweeperKnowledgeWindow();
-            GeneticsWindow gw = new GeneticsWindow();
             minefieldWindow.Show();
-            //minesweeperKnowledgeWindow.Show();
-            gw.Show();
+            this.Close();
         }
 
-        private void minefieldSizeBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void explosivesCountBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (!UInt16.TryParse(minefieldSizeBox.Text, out minefieldSize))
+            if (!UInt16.TryParse(explosivesCountBox.Text, out explosivesCount))
             {
                 wrongInputLabel.Visibility = System.Windows.Visibility.Visible;
                 startButton.IsEnabled = false;

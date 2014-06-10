@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using System.Diagnostics;
 
 namespace saper
 {
@@ -22,11 +23,11 @@ namespace saper
         private Image downImage;
         private Image leftImage;
         private Image rightImage;
-        private Frame.Minefield minefield;
+        public Frame.Minefield minefield { get; set; }
         private Queue<Action> path;
         private int code;
 
-        public Minesweeper(int x, int y, Frame.Minefield initialMinefieldKnowledge)
+        public Minesweeper(int x, int y, Chromosome chromosome)
         {
             this.minefieldSize = Settings.MAP_SIZE;
             this.SetX(x);
@@ -42,10 +43,10 @@ namespace saper
             this.downImage.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/down.png"));
             this.leftImage.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/left.png"));
             this.rightImage.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/right.png"));
-            this.minefield = initialMinefieldKnowledge;
+            this.chromosome = chromosome;
         }
 
-        public Minesweeper(Frame.Minefield initialMinefieldKnowledge) : this(0, 0, initialMinefieldKnowledge) { }
+        public Minesweeper(Chromosome chromosome) : this(0, 0, chromosome) { }
 
         public Image GetDirectionImage()
         {
@@ -57,12 +58,6 @@ namespace saper
                 return this.leftImage;
             else //if (this.facingDirection == Directions.Right)
                 return this.rightImage;
-        }
-
-        public void AddExplosivesLocations(List<Point> location)
-        {
-            for (int i = 0; i < location.Count; ++i)
-                minefield.fields[Convert.ToInt32(location[i].X), Convert.ToInt32(location[i].Y)].explosive = new Frame.Explosive();
         }
 
         public int NextMove()
@@ -216,8 +211,71 @@ namespace saper
             return result;
         }
 
+        private void WriteToFile(string filename)
+        {
+            List<string> lines = new List<string>();
+            for (int i = 0; i < minefield.size; ++i)
+            {
+                string line = "";
+                for (int j = 0; j < minefield.size; ++j)
+                {
+                    line += minefield.fields[j, i].radiation.ToString() + " ";
+                }
+                lines.Add(line);
+            }
+            System.IO.File.WriteAllLines(@filename + ".txt", lines);
+        }
+
+        private List<Point> ReadFromFile(string filename)
+        {
+            List<Point> result = new List<Point>();
+            string[] lines = System.IO.File.ReadAllLines(@filename + ".txt");
+            foreach(string line in lines)
+            {
+                string[] data = line.Split();
+                int x = Convert.ToInt32(data[1]);
+                int y = Convert.ToInt32(data[0]);
+                Point point = new Point(x, y);
+                result.Add(point);
+            }
+            return result;
+
+        }
+
+        private void ResetMinefieldFrame()
+        {
+            for(int i = 0; i < minefieldSize; ++i)
+                for (int j = 0; j < minefieldSize; ++j)
+                {
+                    minefield.fields[i, j].explosive = null;
+                }
+        }
+
+        private void RunNeuralNetwork()
+        {
+            ResetMinefieldFrame();
+
+            WriteToFile("input");
+
+            Process p = new Process();
+            p.StartInfo.FileName = "python.exe";
+            p.StartInfo.Arguments = "trustMe.py";
+            p.Start();
+            p.WaitForExit();
+
+            List<Point> locations = ReadFromFile("output");
+            foreach(Point point in locations)
+            {
+                int x = Convert.ToInt32(point.X);
+                int y = Convert.ToInt32(point.Y);
+                minefield.fields[x, y].explosive = new Frame.Explosive();
+            }
+        }
+
         public void Search()
         {
+            RunNeuralNetwork();
+
             this.path = new Queue<Action>();
             State startState = new State(this.GetX(), this.GetY(), this.minefieldSize, this.facingDirection);
             List<Point> explosives = generateExplosivesLocationsList();

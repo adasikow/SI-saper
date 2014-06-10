@@ -16,7 +16,8 @@ namespace saper
             {
                 ushort x = (ushort)rand.Next(Settings.MAP_MARGIN, Settings.MAP_SIZE - Settings.MAP_MARGIN);
                 ushort y = (ushort)rand.Next(Settings.MAP_MARGIN, Settings.MAP_SIZE - Settings.MAP_MARGIN);
-                double depth = ((double) (rand.Next() % 101)) / 100;
+                double[] depths = { 0.0, 0.2, 0.4 };
+                double depth = depths[rand.Next() % 3];
                 while (!(minefield.fieldArray[x, y].explosive == null && minefield.fieldArray[x, y].type == Frame.FieldType.Grass))
                 {
                     x = (ushort)rand.Next(Settings.MAP_MARGIN, Settings.MAP_SIZE - Settings.MAP_MARGIN);

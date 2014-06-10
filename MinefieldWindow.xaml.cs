@@ -20,7 +20,9 @@ namespace saper
     {
         private Minesweeper minesweeper;
         private Minefield minefield;
-        private MinePositionsGenerator mpg;
+
+        private GeneticsWindow geneticsWindow;
+        private MinesweeperKnowledgeWindow minesweeperKnowledgeWindow;
 
         public MinefieldWindow()
         {
@@ -88,9 +90,10 @@ namespace saper
 
         private void Reset()
         {
-            mpg = new MinePositionsGenerator();
-            minefield = new Minefield(Settings.MAP_SIZE);
+            minefield = new Minefield();
             minesweeper = null;
+            DestroyGeneticsWindow();
+            DestroyKnowledgeWindow();
         }
 
         private void Redraw()
@@ -99,21 +102,40 @@ namespace saper
             drawFieldTypes();
             drawMines();
             drawMinesweeper();
+            if (minesweeperKnowledgeWindow != null)
+                minesweeperKnowledgeWindow.Redraw(minesweeper.minefield);
         }
 
-        private void WriteToFile(Frame.Minefield minefield, string filename)
+        private void InitializeGeneticsWindow()
         {
-            List<string> lines = new List<string>();
-            for(int i = 0; i < minefield.size; ++i)
+            if (geneticsWindow == null)
             {
-                string line = "";
-                for (int j = 0; j < minefield.size; ++j)
-                {
-                    line += minefield.fields[j, i].radiation.ToString() + " ";
-                }
-                lines.Add(line);
+                geneticsWindow = new GeneticsWindow();
+                geneticsWindow.Show();
             }
-            System.IO.File.WriteAllLines(@"D:\" + filename + ".txt", lines);
+        }
+
+        private void InitializeKnowledgeWindow()
+        {
+            if (minesweeperKnowledgeWindow == null)
+            {
+                minesweeperKnowledgeWindow = new MinesweeperKnowledgeWindow();
+                minesweeperKnowledgeWindow.Show();
+            }
+        }
+
+        private void DestroyGeneticsWindow()
+        {
+            if (geneticsWindow != null)
+                geneticsWindow.Close();
+            geneticsWindow = null;
+        }
+
+        private void DestroyKnowledgeWindow()
+        {
+            if (minesweeperKnowledgeWindow != null)
+                minesweeperKnowledgeWindow.Close();
+            minesweeperKnowledgeWindow = null;
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -128,26 +150,24 @@ namespace saper
                     }
                     break;
 
-                case Key.G:
-                    mpg.GenerateMinePositions(Settings.NR_OF_MINES, minefield);
-                    break;
-
-                case Key.P:
-                    WriteToFile(minefield.generateInitialMinefieldFrame(), "input");
-                    WriteToFile(minefield.generateFakeFrame(), "output");
-                    break;
 
                 case Key.R:
                     Reset();
                     break;
 
+                case Key.G:
+                    InitializeGeneticsWindow();
+                    break;
+
                 case Key.Enter:
-                    if (minesweeper == null)
+                    if(geneticsWindow != null)
                     {
-                        minesweeper = new Minesweeper(minefield.generateInitialMinefieldFrame());
+                        InitializeKnowledgeWindow();
+                        minesweeper = new Minesweeper(geneticsWindow.getCurrentChromosome());
+                        minesweeper.minefield = minefield.generateMinefieldFrame();
+                        minefield.WriteToFile("diag");
+                        minesweeper.Search();
                     }
-                    minesweeper.AddExplosivesLocations(minefield.GetExplosivesLocations());
-                    minesweeper.Search();
                     break;
             }
             Redraw();

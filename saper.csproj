@@ -71,7 +71,6 @@
     </Compile>
     <Compile Include="IParentsSelectionStrategy.cs" />
     <Compile Include="Explosive.cs" />
-    <Compile Include="MinePositionsGenerator.cs" />
     <Compile Include="PriorityQueue.cs" />
     <Compile Include="RouletteSelection.cs" />
     <Compile Include="Settings.cs" />
