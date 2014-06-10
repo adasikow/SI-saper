@@ -318,11 +318,21 @@ def saveCoordinates(boolfield, outputfile):
     with open(outputfile, "w") as my_file:
         my_file.write(my_string)
 
+def getMapsize(filename):
+    my_file = open(filename, "r")
+    my_string = my_file.read()
+    my_list = my_string.split("\n")
+    mapsize = 0
+    for i in my_list:
+        if i !="":
+            mapsize+=1
+    return mapsize
+
 def main(filenames):
     inputfile = filenames[0]
     outputfile = filenames[1]
 
-    my_field = Minefield(15)
+    my_field = Minefield(getMapsize(inputfile))
     my_field.loadRadiation(inputfile)
     patterns = my_field.getAllVectors(0)
 
@@ -331,7 +341,7 @@ def main(filenames):
         boolfield = addMatrix(boolfield, rebuildMap(testVectors(patterns, "network"+str(i))))
     final = theOracle(normalizeMatrix(boolfield))
     saveBoolField(outputfile, final)
-    #printMatrix(final)
+    printMatrix(final)
     saveCoordinates(final, outputfile)
 
 main(["input.txt", "output.txt"]) # jakby co to mozna sobie porownac zipa pomoca funkcji loadBoolField i compareMatrix
