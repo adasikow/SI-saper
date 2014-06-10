@@ -151,11 +151,6 @@ namespace saper
                 this.MoveRight();
         }
 
-        public int RecognizeRequest()
-        {
-            return 2;
-        }
-
 
         // ********************************************************* UCZENIE SYMBOLICZNE *******************************************************************************************
         public bool recognizeBouncingBetty(Frame.Shape? shape, Frame.Colour? colour, Frame.Material? material,
@@ -407,6 +402,11 @@ namespace saper
 
         // ********************************************************* KONIEC UCZENIA SYMOBILCZNEGO *******************************************************************************************
 
+        public void RecognizeRequest()
+        {
+            code = 2;
+        }
+
         public void Disarm()
         {
             minefield.fields[GetX(), GetY()].explosive = null;
@@ -570,7 +570,7 @@ namespace saper
                 }
                 while (singlePath.Count != 0)
                     path.Enqueue(singlePath.Pop());
-                //path.Add(Recognize);
+                path.Enqueue(RecognizeRequest);
                 path.Enqueue(Disarm);
                 explosives.RemoveAt(i);
             }

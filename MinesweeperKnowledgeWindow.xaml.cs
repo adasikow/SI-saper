@@ -38,12 +38,12 @@ namespace saper
             scrap = new BitmapImage(new Uri(@"pack://application:,,,/res/scrap.jpg"));
 
             explosive = new BitmapImage(new Uri(@"pack://application:,,,/res/explosive.jpg"));
-            //bouncingBetty = new BitmapImage(new Uri(@"pack://application:,,,/res/bouncingBetty.png"));
-            //c4 = new BitmapImage(new Uri(@"pack://application:,,,/res/c4.png"));
-            //claymore = new BitmapImage(new Uri(@"pack://application:,,,/res/claymore.png"));
-            //dynamite = new BitmapImage(new Uri(@"pack://application:,,,/res/dynamite.png"));
-            //misfire = new BitmapImage(new Uri(@"pack://application:,,,/res/misfire.png"));
-            //semtex = new BitmapImage(new Uri(@"pack://application:,,,/res/semtex.png"));
+            bouncingBetty = new BitmapImage(new Uri(@"pack://application:,,,/res/bouncingbetty.jpg"));
+            c4 = new BitmapImage(new Uri(@"pack://application:,,,/res/c4.jpg"));
+            claymore = new BitmapImage(new Uri(@"pack://application:,,,/res/claymore.jpg"));
+            dynamite = new BitmapImage(new Uri(@"pack://application:,,,/res/dynamite.jpg"));
+            misfire = new BitmapImage(new Uri(@"pack://application:,,,/res/misfire.jpg"));
+            semtex = new BitmapImage(new Uri(@"pack://application:,,,/res/semtex.jpg"));
         }
 
         private void InitializeGrid()

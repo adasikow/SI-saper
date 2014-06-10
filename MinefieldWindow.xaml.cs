@@ -150,10 +150,10 @@ namespace saper
                         {
                             minefield.disarmAt(minesweeper.GetX(), minesweeper.GetY());
                         }
-                        //else if (code == 2 && minefield.fieldArray)
-                        //{
-                        //    minesweeper.Reco
-                        //}
+                        else if (code == 2 && minefield.fieldArray[minesweeper.GetX(), minesweeper.GetY()].explosive != null)
+                        {
+                            minesweeper.Recognize(minefield.fieldArray[minesweeper.GetX(), minesweeper.GetY()].explosive.frame);
+                        }
                     }
                     break;
 
