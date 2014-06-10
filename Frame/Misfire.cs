@@ -9,7 +9,7 @@ namespace Frame
     {
         public Misfire()
         {
-            this.colour = Colour.Black;
+
         }
     }
 }

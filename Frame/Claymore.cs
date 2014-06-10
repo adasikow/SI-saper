@@ -12,6 +12,7 @@ namespace Frame
             this.shape = Shape.Cuboid;
             this.material = Material.Metal;
             this.hardness = Hardness.Hard;
+            this.size = Size.Medium;
             this.hasLight = false;
             this.makesSound = false;
         }

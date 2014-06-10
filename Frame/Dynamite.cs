@@ -11,10 +11,10 @@ namespace Frame
         {
             this.shape = Shape.Cylinder;
             this.material = Material.Plastic;
-            this.makesSound = true;
+            this.hardness = Hardness.Medium;
+            this.weight = Weight.Medium;
+            this.size = Size.Small;
             this.hasLight = true;
-            this.hardness = Hardness.Hard;
-            this.colour = Colour.Red;
         }
     }
 }

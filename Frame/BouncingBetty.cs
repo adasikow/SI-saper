@@ -9,9 +9,10 @@ namespace Frame
     {
         public BouncingBetty()
         {
-            this.shape = Shape.Cylinder;
+            this.colour = Colour.Brown;
             this.material = Material.Metal;
-            this.hardness = Hardness.Hard;
+            this.weight = Weight.Light;
+            this.size = Size.Small;
             this.hasLight = false;
             this.makesSound = false;
         }

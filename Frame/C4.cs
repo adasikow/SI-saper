@@ -9,10 +9,11 @@ namespace Frame
     {
         public C4()
         {
+            this.shape = Shape.Sphere;
             this.material = Material.Fabric;
-            this.shape = Shape.Cuboid;
-            this.hasLight = true;
             this.hardness = Hardness.Soft;
+            this.weight = Weight.Heavy;
+            this.hasLight = true;
             this.makesSound = false;
         }
     }

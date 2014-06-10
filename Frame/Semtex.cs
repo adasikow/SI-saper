@@ -9,8 +9,10 @@ namespace Frame
     {
         public Semtex()
         {
-            this.material = Material.Fabric;
-            this.hardness = Hardness.Plastic;
+            this.shape = Shape.Cuboid;
+            this.colour = Colour.Brown;
+            this.material = Material.Polymer;
+            this.weight = Weight.Medium;
             this.hasLight = false;
             this.makesSound = false;
         }
