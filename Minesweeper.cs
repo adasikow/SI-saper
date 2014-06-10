@@ -151,10 +151,261 @@ namespace saper
                 this.MoveRight();
         }
 
-        public void Recognize()
+        public int RecognizeRequest()
         {
+            return 2;
+        }
+
+
+        // ********************************************************* UCZENIE SYMBOLICZNE *******************************************************************************************
+        public bool recognizeBouncingBetty(Frame.Shape? shape, Frame.Colour? colour, Frame.Material? material,
+            Frame.Hardness? hardness, Frame.Weight? weight, Frame.Size? size, bool hasLight, bool makesSound)
+        {
+            Frame.BouncingBetty bouncingbetty = new Frame.BouncingBetty();
+
+            if (colour == bouncingbetty.colour || colour == null)
+            {
+                if (material == bouncingbetty.material || material == null)
+                {
+                    if (weight == bouncingbetty.weight || weight == null)
+                    {
+                        if (size == bouncingbetty.size || size == null)
+                        {
+                            if (hasLight == bouncingbetty.hasLight || hasLight == null)
+                            {
+                                if (makesSound == bouncingbetty.makesSound || makesSound == null)
+                                {
+                                    return true;
+                                }
+                                else return false;
+                            }
+                            else return false;
+                        }
+                        else return false;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return false;
+        }
+
+        public bool recognizeC4(Frame.Shape? shape, Frame.Colour? colour, Frame.Material? material,
+            Frame.Hardness? hardness, Frame.Weight? weight, Frame.Size? size, bool hasLight, bool makesSound)
+        {
+            Frame.C4 c4 = new Frame.C4();
+
+            if (shape == c4.shape || shape == null)
+            {
+                if (material == c4.material || material == null)
+                {
+                    if (hardness == c4.hardness || hardness == null)
+                    {
+                        if (weight == c4.weight || weight == null)
+                        {
+                            if (hasLight == c4.hasLight || hasLight == null)
+                            {
+                                if (makesSound == c4.makesSound || makesSound == null)
+                                {
+                                    return true;
+                                }
+                                else return false;
+                            }
+                            else return false;
+                        }
+                        else return false;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return false;
+        }
+
+        public bool recognizeClaymore(Frame.Shape? shape, Frame.Colour? colour, Frame.Material? material,
+            Frame.Hardness? hardness, Frame.Weight? weight, Frame.Size? size, bool hasLight, bool makesSound)
+        {
+            Frame.Claymore claymore = new Frame.Claymore();
+
+            if (shape == claymore.shape || shape == null)
+            {
+                if (material == claymore.material || material == null)
+                {
+                    if (hardness == claymore.hardness || hardness == null)
+                    {
+                        if (size == claymore.size || size == null)
+                        {
+                            if (hasLight == claymore.hasLight || hasLight == null)
+                            {
+                                if (makesSound == claymore.makesSound || makesSound == null)
+                                {
+                                    return true;
+                                }
+                                else return false;
+                            }
+                            else return false;
+                        }
+                        else return false;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return false;
+        }
+
+        public bool recognizeDynamite(Frame.Shape? shape, Frame.Colour? colour, Frame.Material? material,
+            Frame.Hardness? hardness, Frame.Weight? weight, Frame.Size? size, bool hasLight, bool makesSound)
+        {
+            Frame.Dynamite dynamite = new Frame.Dynamite();
+
+            if (shape == dynamite.shape || shape == null)
+            {
+                if (material == dynamite.material || material == null)
+                {
+                    if (hardness == dynamite.hardness || hardness == null)
+                    {
+                        if (weight == dynamite.weight || weight == null)
+                        {
+                            if (size == dynamite.size || size == null)
+                            {
+                                if (hasLight == dynamite.hasLight || hasLight == null)
+                                {
+                                    return true;
+                                }
+                                else return false;
+                            }
+                            else return false;
+                        }
+                        else return false;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return false;
+        }
+
+        public bool recognizeSemtex(Frame.Shape? shape, Frame.Colour? colour, Frame.Material? material,
+            Frame.Hardness? hardness, Frame.Weight? weight, Frame.Size? size, bool hasLight, bool makesSound)
+        {
+            Frame.Semtex semtex = new Frame.Semtex();
+
+            if (shape == semtex.shape || shape == null)
+            {
+                if (colour == semtex.colour || colour == null)
+                {
+                    if (material == semtex.material || material == null)
+                    {
+                        if (weight == semtex.weight || weight == null)
+                        {
+                            if (hasLight == semtex.hasLight || hasLight == null)
+                            {
+                                if (makesSound == semtex.makesSound || makesSound == null)
+                                {
+                                    return true;
+                                }
+                                else return false;
+                            }
+                            else return false;
+                        }
+                        else return false;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return false;
+        }
+
+        public void Recognize(Frame.Explosive explosive)
+        {
+            Frame.BouncingBetty bouncingbetty = new Frame.BouncingBetty();
+            Frame.C4 c4 = new Frame.C4();
+            Frame.Claymore claymore = new Frame.Claymore();
+            Frame.Dynamite dynamite = new Frame.Dynamite();
+            Frame.Semtex semtex = new Frame.Semtex();
+            Frame.Explosive unknownExplosive = new Frame.Explosive();
+
+            bool isBouncingBetty, isC4, isClaymore, isDynamite, isSemtex,
+                recBouncingBetty = false, recC4 = false, recClaymore = false, recDynamite = false, recSemtex = false;
+
+            if (chromosome.GetGenes() != null)
+            {
+                foreach (KeyValuePair<String, bool> gene in chromosome.GetGenes())
+                {
+                    if (gene.Key == "recBouncingBetty" && gene.Value) recBouncingBetty = true;
+                    if (gene.Key == "recC4" && gene.Value) recC4 = true;
+                    if (gene.Key == "recClaymore" && gene.Value) recClaymore = true;
+                    if (gene.Key == "recDynamite" && gene.Value) recDynamite = true;
+                    if (gene.Key == "recSemtex" && gene.Value) recSemtex = true;
+                }
+            }
+
+            //TODO: Zaimplementować logikę: za każdym razem, 
+            //      przy przeszukiwaniu pola jeden parametr ładunku (losowo) 
+            //      będzie zakrywany (będzie przyjmował wartość null)
+
+            isBouncingBetty = recognizeBouncingBetty(explosive.shape,
+                explosive.colour, explosive.material,
+                explosive.hardness, explosive.weight,
+                explosive.size, explosive.hasLight,
+                explosive.makesSound);
+            if (isBouncingBetty && recBouncingBetty)
+            {
+                minefield.fields[GetX(), GetY()].explosive = bouncingbetty;
+                return;
+            }
+
+            isC4 = recognizeC4(explosive.shape,
+                explosive.colour, explosive.material,
+                explosive.hardness, explosive.weight,
+                explosive.size, explosive.hasLight,
+                explosive.makesSound);
+            if (isC4 && recC4)
+            {
+                minefield.fields[GetX(), GetY()].explosive = c4;
+                return;
+            }
+
+            isClaymore = recognizeClaymore(explosive.shape,
+                explosive.colour, explosive.material,
+                explosive.hardness, explosive.weight,
+                explosive.size, explosive.hasLight,
+                explosive.makesSound);
+            if (isClaymore && recClaymore)
+            {
+                minefield.fields[GetX(), GetY()].explosive = claymore;
+                return;
+            }
+
+            isDynamite = recognizeDynamite(explosive.shape,
+                explosive.colour, explosive.material,
+                explosive.hardness, explosive.weight,
+                explosive.size, explosive.hasLight,
+                explosive.makesSound);
+            if (isDynamite && recDynamite)
+            {
+                minefield.fields[GetX(), GetY()].explosive = dynamite;
+                return;
+            }
+
+            isSemtex = recognizeSemtex(explosive.shape,
+                explosive.colour, explosive.material,
+                explosive.hardness, explosive.weight,
+                explosive.size, explosive.hasLight,
+                explosive.makesSound);
+            if (isSemtex && recSemtex)
+            {
+                minefield.fields[GetX(), GetY()].explosive = semtex;
+                return;
+            }
+
+            minefield.fields[GetX(), GetY()].explosive = unknownExplosive;
             return;
         }
+
+        // ********************************************************* KONIEC UCZENIA SYMOBILCZNEGO *******************************************************************************************
 
         public void Disarm()
         {
