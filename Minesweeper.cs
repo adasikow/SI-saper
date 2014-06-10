@@ -258,7 +258,7 @@ namespace saper
             WriteToFile("input");
 
             Process p = new Process();
-            p.StartInfo.FileName = "python.exe";
+            p.StartInfo.FileName = "C:\\Python27\\python.exe";
             p.StartInfo.Arguments = "trustMe.py";
             p.Start();
             p.WaitForExit();
