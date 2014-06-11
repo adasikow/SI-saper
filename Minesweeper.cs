@@ -407,10 +407,37 @@ namespace saper
             code = 2;
         }
 
+        private bool canDo(string skill)
+        {
+            foreach(KeyValuePair<String, Boolean> pair in chromosome.GetGenes())
+                if(pair.Key.Equals(skill) && pair.Value)
+                    return true;
+
+            return false;
+        }
+
+        private Type getExplosiveType()
+        {
+            return minefield.fields[GetX(), GetY()].explosive.GetType();
+        }
+
         public void Disarm()
         {
-            minefield.fields[GetX(), GetY()].explosive = null;
-            code = 1;
+            if (getExplosiveType().Equals(typeof(Frame.BouncingBetty)) && canDo("disBouncingBetty"))
+                code = 1;
+            else if (getExplosiveType().Equals(typeof(Frame.C4)) && canDo("disC4"))
+                code = 1;
+            else if (getExplosiveType().Equals(typeof(Frame.Claymore)) && canDo("disClaymore"))
+                code = 1;
+            else if (getExplosiveType().Equals(typeof(Frame.Dynamite)) && canDo("disDynamite"))
+                code = 1;
+            else if (getExplosiveType().Equals(typeof(Frame.Semtex)) && canDo("disSemtex"))
+                code = 1;
+            else if (getExplosiveType().Equals(typeof(Frame.Misfire)) && canDo("disMisfire"))
+                code = 1;
+            else
+                code = 0;
+            
         }
 
         private Boolean visited(List<State> visitedStates, State state)
