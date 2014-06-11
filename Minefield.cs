@@ -48,7 +48,7 @@ namespace saper
                     x = (ushort)rand.Next(Settings.MAP_MARGIN, Settings.MAP_SIZE - Settings.MAP_MARGIN);
                     y = (ushort)rand.Next(Settings.MAP_MARGIN, Settings.MAP_SIZE - Settings.MAP_MARGIN);
                 }
-                placeMineAt(x, y, depth, new Explosive());
+                placeMineAt(x, y, depth, new Explosive(rand));
             }
         }
 

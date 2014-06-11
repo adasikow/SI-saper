@@ -159,30 +159,10 @@ namespace saper
             Frame.BouncingBetty bouncingbetty = new Frame.BouncingBetty();
 
             if (colour == bouncingbetty.colour || colour == null)
-            {
                 if (material == bouncingbetty.material || material == null)
-                {
                     if (weight == bouncingbetty.weight || weight == null)
-                    {
-                        if (size == bouncingbetty.size || size == null)
-                        {
-                            if (hasLight == bouncingbetty.hasLight || hasLight == null)
-                            {
-                                if (makesSound == bouncingbetty.makesSound || makesSound == null)
-                                {
-                                    return true;
-                                }
-                                else return false;
-                            }
-                            else return false;
-                        }
-                        else return false;
-                    }
-                    else return false;
-                }
-                else return false;
-            }
-            else return false;
+                        return true;
+            return false;
         }
 
         public bool recognizeC4(Frame.Shape? shape, Frame.Colour? colour, Frame.Material? material,
@@ -190,31 +170,11 @@ namespace saper
         {
             Frame.C4 c4 = new Frame.C4();
 
-            if (shape == c4.shape || shape == null)
-            {
-                if (material == c4.material || material == null)
-                {
-                    if (hardness == c4.hardness || hardness == null)
-                    {
-                        if (weight == c4.weight || weight == null)
-                        {
-                            if (hasLight == c4.hasLight || hasLight == null)
-                            {
-                                if (makesSound == c4.makesSound || makesSound == null)
-                                {
-                                    return true;
-                                }
-                                else return false;
-                            }
-                            else return false;
-                        }
-                        else return false;
-                    }
-                    else return false;
-                }
-                else return false;
-            }
-            else return false;
+            if (weight == c4.weight || weight == null)
+                if (hasLight == c4.hasLight || hasLight == null)
+                    if (makesSound == c4.makesSound || makesSound == null)
+                        return true;
+            return false;
         }
 
         public bool recognizeClaymore(Frame.Shape? shape, Frame.Colour? colour, Frame.Material? material,
@@ -223,30 +183,10 @@ namespace saper
             Frame.Claymore claymore = new Frame.Claymore();
 
             if (shape == claymore.shape || shape == null)
-            {
-                if (material == claymore.material || material == null)
-                {
-                    if (hardness == claymore.hardness || hardness == null)
-                    {
-                        if (size == claymore.size || size == null)
-                        {
-                            if (hasLight == claymore.hasLight || hasLight == null)
-                            {
-                                if (makesSound == claymore.makesSound || makesSound == null)
-                                {
-                                    return true;
-                                }
-                                else return false;
-                            }
-                            else return false;
-                        }
-                        else return false;
-                    }
-                    else return false;
-                }
-                else return false;
-            }
-            else return false;
+                if (hasLight == claymore.hasLight || hasLight == null)
+                    if (makesSound == claymore.makesSound || makesSound == null)
+                        return true;
+            return false;
         }
 
         public bool recognizeDynamite(Frame.Shape? shape, Frame.Colour? colour, Frame.Material? material,
@@ -255,30 +195,10 @@ namespace saper
             Frame.Dynamite dynamite = new Frame.Dynamite();
 
             if (shape == dynamite.shape || shape == null)
-            {
-                if (material == dynamite.material || material == null)
-                {
+                 if (material == dynamite.material || material == null)
                     if (hardness == dynamite.hardness || hardness == null)
-                    {
-                        if (weight == dynamite.weight || weight == null)
-                        {
-                            if (size == dynamite.size || size == null)
-                            {
-                                if (hasLight == dynamite.hasLight || hasLight == null)
-                                {
-                                    return true;
-                                }
-                                else return false;
-                            }
-                            else return false;
-                        }
-                        else return false;
-                    }
-                    else return false;
-                }
-                else return false;
-            }
-            else return false;
+                        return true;
+            return false;
         }
 
         public bool recognizeSemtex(Frame.Shape? shape, Frame.Colour? colour, Frame.Material? material,
@@ -286,35 +206,15 @@ namespace saper
         {
             Frame.Semtex semtex = new Frame.Semtex();
 
-            if (shape == semtex.shape || shape == null)
-            {
-                if (colour == semtex.colour || colour == null)
-                {
-                    if (material == semtex.material || material == null)
-                    {
-                        if (weight == semtex.weight || weight == null)
-                        {
-                            if (hasLight == semtex.hasLight || hasLight == null)
-                            {
-                                if (makesSound == semtex.makesSound || makesSound == null)
-                                {
-                                    return true;
-                                }
-                                else return false;
-                            }
-                            else return false;
-                        }
-                        else return false;
-                    }
-                    else return false;
-                }
-                else return false;
-            }
-            else return false;
+            if (material == semtex.material || material == null)
+                if (weight == semtex.weight || weight == null)
+                    if (makesSound == semtex.makesSound || makesSound == null)
+                        return true;
+            return false;
         }
 
         public void Recognize(Frame.Explosive explosive)
-        {
+         {
             Frame.BouncingBetty bouncingbetty = new Frame.BouncingBetty();
             Frame.C4 c4 = new Frame.C4();
             Frame.Claymore claymore = new Frame.Claymore();
@@ -444,8 +344,6 @@ namespace saper
                 code = 0;
             if (code == 1)
                 removeMine();
-
-            
         }
 
         private Boolean visited(List<State> visitedStates, State state)

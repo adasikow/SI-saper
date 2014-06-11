@@ -11,19 +11,21 @@ namespace saper
     {
         public Frame.Explosive frame { get; private set; }
 
+        private Random random;
         public Image image { get; protected set; }
-        public Explosive()
+        public Explosive(Random rand)
         {
+            //random = new Random();
             frame = new Frame.Explosive();
             image = new Image();
             image.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/explosive.jpg"));
-            //frame = new Frame.Semtex();
-            GenerateFrame();
+            GenerateFrame(rand);
+
         }
 
-        private void GenerateFrame()
+        private void GenerateFrame(Random random)
         {
-            Random random = new Random();
+
             Array values;
 
             values = Enum.GetValues(typeof(Frame.Colour));
