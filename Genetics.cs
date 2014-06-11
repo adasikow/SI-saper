@@ -9,10 +9,8 @@ namespace saper
 
         private List<String> features = new List<String>(new String[] {
             // "rec" means recognition and "dis" means disarm
-            "recClaymore", "recS-mine", "recC4", "recSemtex", "recMisfire", "recTNT",
-            "recFougasse", "recBoundingMine", "recPicricAcid", "recTrotil", "recHexogen",
-            "disClaymore", "disS-mine", "disC4", "disSemtex", "disMisfire", "disTNT",
-            "disFougasse", "disBoundingMine", "disPicricAcid", "disTrotil", "disHexogen" });
+            "recClaymore", "recBouncingBetty", "recC4", "recSemtex", "recDynamite",
+            "disClaymore", "disBouncingBetty", "disC4", "disSemtex", "disDynamite" });
             
         //private float mutationRate = 0.05;
 
