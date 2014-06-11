@@ -421,6 +421,11 @@ namespace saper
             return minefield.fields[GetX(), GetY()].explosive.GetType();
         }
 
+        private void removeMine()
+        {
+            minefield.fields[GetX(), GetY()].explosive = null;
+        }
+
         public void Disarm()
         {
             if (getExplosiveType().Equals(typeof(Frame.BouncingBetty)) && canDo("disBouncingBetty"))
@@ -437,6 +442,9 @@ namespace saper
                 code = 1;
             else
                 code = 0;
+            if (code == 1)
+                removeMine();
+
             
         }
 

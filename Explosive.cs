@@ -17,6 +17,7 @@ namespace saper
             frame = new Frame.Explosive();
             image = new Image();
             image.Source = new BitmapImage(new Uri(@"pack://application:,,,/res/explosive.jpg"));
+            //frame = new Frame.Semtex();
             GenerateFrame();
         }
 
